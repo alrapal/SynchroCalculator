@@ -1,0 +1,239 @@
+#mainRoot{
+    -fx-background-image: url('Images/background.png');
+    -fx-font-family: Arial;
+    -fx-opacity: 1;
+    -fx-text-fill: white;
+}
+#keepOnTop{
+    -fx-text-fill: white;
+}
+#infosBackground{
+    -fx-background-color: white;
+    -fx-opacity: 0.8;
+}
+#titleInfos{
+    -fx-font-family: Arial;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+#labelResAir{
+    -fx-text-fill: white;
+}
+#resFixPicture{
+    -fx-image: url('Images/resAir.png');
+    -fx-opacity: 1;
+}
+#resFixes{
+}
+#resPerPicture{
+    -fx-image: url('Images/resAir.png');
+}
+#resPercentage{
+}
+#labelResPercentageAir{
+    -fx-text-fill: white;
+}
+#labelBoostSynchro{
+    -fx-text-fill: white;
+}
+#labelLvl{
+    -fx-text-fill: white;
+}
+#labelLvl1{
+    -fx-text-fill: white;
+}
+#labelLvl2{
+    -fx-text-fill: white;
+}
+#labelLvl3{
+    -fx-text-fill: white;
+}
+
+#boostPicture{
+    -fx-image: url('Images/Synchro.png');
+}
+#damagesBackground {
+    -fx-background-color: #0b0b29;
+    -fx-opacity: 0.8;
+}
+#damageLabel{
+    -fx-font-family: Arial;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+#damages{
+    -fx-font-size: 17pt;
+    -fx-text-fill: white;
+}
+#messageBackground {
+    -fx-background-color: black;
+    -fx-opacity: 0.8;
+}
+#teleportationButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/téléportation.png');
+}
+#teleportationButton:selected{
+    -fx-graphic: url('Images/téléportationSelected.png');
+}
+#RSbutton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/retourSpontané.png');
+}
+#RSbutton:selected{
+    -fx-graphic: url('Images/retourSpontanéSelected.png');
+}
+#frappeButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/frappe.png');
+}
+#frappeButton:selected{
+    -fx-graphic: url('Images/frappeSelected.png');
+}
+#engrenageButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/engrenage.png');
+}
+#engrenageButton:selected{
+    -fx-graphic: url('Images/engrenageSelected.png');
+}
+#gelureButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/gelure.png');
+}
+#gelureButton:selected{
+    -fx-graphic: url('Images/gelureSelected.png');
+}
+#perturbationButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/perturbation.png');
+}
+#perturbationButton:selected{
+    -fx-graphic: url('Images/perturbationSelected.png');
+}
+#penduleButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/pendule.png');
+}
+#penduleButton:selected{
+    -fx-graphic: url('Images/penduleSelected.png');
+}
+#distortionButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/distortion.png');
+}
+#distortionButton:selected{
+    -fx-graphic: url('Images/distortionSelected.png');
+}
+#paradoxeButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/paradoxe.png');
+}
+#paradoxeButton:selected{
+    -fx-graphic: url('Images/paradoxeSelected.png');
+}
+#failleButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/faille.png');
+}
+#failleButton:selected{
+    -fx-graphic: url('Images/failleSelected.png');
+}
+#raulebackButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/raulebaque.png');
+}
+#raulebackButton:selected{
+    -fx-graphic: url('Images/raulebaqueSelected.png');
+}
+#instabiliteButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/instabilité.png');
+}
+#instabiliteButton:selected{
+    -fx-graphic: url('Images/instabilitéSelected.png');
+}
+#remboButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/rembobinage.png');
+}
+#remboButton:selected{
+    -fx-graphic: url('Images/rembobinageSelected.png');
+}
+#renvoiButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/renvoi.png');
+}
+#renvoiButton:selected{
+    -fx-graphic: url('Images/renvoiSelected.png');
+}
+#fuiteButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/fuite.png');
+}
+#fuiteButton:selected{
+    -fx-graphic: url('Images/fuiteSelected.png');
+}
+#premoButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/prémonition.png');
+}
+#premoButton:selected{
+    -fx-graphic: url('Images/prémonitionSelected.png');
+}
+#poussiereButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/poussière.png');
+}
+#poussiereButton:selected{
+    -fx-graphic: url('Images/poussièreSelected.png');
+}
+#souvenirButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/souvenir.png');
+}
+#souvenirButton:selected{
+    -fx-graphic: url('Images/souvenirSelected.png');
+}
+#bouclierButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/bouclier.png');
+}
+#bouclierButton:selected{
+    -fx-graphic: url('Images/bouclierSelected.png');
+}
+#desychroButton{
+    -fx-background-color: transparent;
+    -fx-graphic: url('Images/désynchronisation.png');
+}
+#desychroButton:selected{
+    -fx-graphic: url('Images/désynchronisationSelected.png');
+}
+#infoLabel{
+    -fx-text-fill: white;
+}
+#calculate{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/Button.png');
+    -fx-text-fill: white;
+}
+#calculate:armed {
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSelected.png');
+    -fx-text-fill: white;
+}
+#reset{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/Button.png');
+    -fx-text-fill: white;
+}
+#reset:armed{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSelected.png');
+    -fx-text-fill: white;
+}
+#rightsLabel{
+    -fx-text-fill: white;
+    -fx-font-size: 10pt;
+    -fx-font-style: italic;
+}
