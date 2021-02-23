@@ -16,14 +16,6 @@ public class App extends Application {
 
     private static Scene scene;
 
-    /* mainWindow.setTitle("Synchro Calculator");
-    Parent mainRoot = FXMLLoader.load(getClass().getResource("/Resources/mainWindow.fxml"));
-    Scene mainWindowScene = new Scene(mainRoot);
-
-        mainWindow.setScene(mainWindowScene);
-        mainWindow.setResizable(false);
-        mainWindow.show();*/
-
     @Override
     public void start(Stage mainWindow) throws IOException {
         mainWindow.setTitle("Synchro Calculator");

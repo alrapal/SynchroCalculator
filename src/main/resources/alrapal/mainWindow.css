@@ -237,3 +237,17 @@
     -fx-font-size: 10pt;
     -fx-font-style: italic;
 }
+#damageMultiplicatorBackground{
+    -fx-opacity: 0.8;
+}
+#damageMultiplicatorLabel{
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+}
+#damageMultiplicatorNameInput{
+}
+#damageMultiplicatorOutput{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+}

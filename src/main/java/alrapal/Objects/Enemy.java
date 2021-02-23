@@ -8,6 +8,7 @@ public class Enemy {
 
     private float airRes;
     private float percentageAirRes;
+    private float damageMultiplicator;
     //TODO : shield
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +17,8 @@ public class Enemy {
 
     public Enemy()
     {   this.airRes = 0;
-        this.percentageAirRes = 0; }
+        this.percentageAirRes = 0;
+        this.damageMultiplicator = 1;}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////GETTERS & SETTERS/////////////////////////////
@@ -26,8 +28,14 @@ public class Enemy {
     public void setAirRes(float airRes) {this.airRes = airRes;}
     public float getPercentageAirRes() {return percentageAirRes;}
     public void setPercentageAirRes(float percentageAirRes) {this.percentageAirRes = percentageAirRes;}
+    public float getDamageMultiplicator(){return damageMultiplicator;}
+    public void setDamageMultiplicator(float damageMultiplicator){this.damageMultiplicator = damageMultiplicator;}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////METHODS///////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
+
+    public void addMultiplicator (float newMultiplicator){
+        this.damageMultiplicator = this.damageMultiplicator*newMultiplicator;
+    }
 }

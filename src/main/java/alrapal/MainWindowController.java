@@ -16,7 +16,7 @@ public class MainWindowController {
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////ATTRIBUTES////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
-
+    public static final String EOL = System.lineSeparator();
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
 
@@ -36,6 +36,11 @@ public class MainWindowController {
     public RadioButton synchroLvl1;
     public RadioButton synchroLvl2;
     public RadioButton synchroLvl3;
+    public TextField damageMultiplicatorNameInput;
+    public TextField damageMultiplicatorValueInput;
+    public Label damageMultiplicatorOutput;
+
+
 
     //////////////////////////////////////SPELL BUTTONS ////////////////////////////////
 
@@ -64,12 +69,31 @@ public class MainWindowController {
     //////////////////////////////////////DIRECT INPUTS/////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
+    public void updateMultiplicator(ActionEvent actionEvent){
+        String name = damageMultiplicatorNameInput.getText();
+        String valueStr = damageMultiplicatorValueInput.getText();
+        try {
+            float newMultiplicator = Float.valueOf(valueStr)/100;
+            enemy.addMultiplicator(newMultiplicator);
+            updateMultiplicatorOutput(name, valueStr);
+        }catch (NumberFormatException numberFormatException){
+            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
+        }
+    }
+
+    private void updateMultiplicatorOutput(String name, String value){
+        String currentMultiplicators = damageMultiplicatorOutput.getText();
+        String newMultiplicator = name + " - " + value +"%" + EOL;
+        damageMultiplicatorOutput.setText(currentMultiplicators + newMultiplicator);
+    }
+
     public String calculateDamages() {
         float boost = synchro.getBoost();
         float baseDamage = synchro.getBaseDamage();
         float airRes = enemy.getAirRes();
         float percentageAirRes = enemy.getPercentageAirRes();
-        float totalDamage = (baseDamage - airRes) * (1-(percentageAirRes/100)) * ((boost/100)-1);
+        float multiplicator = enemy.getDamageMultiplicator();
+        float totalDamage = (baseDamage - airRes) * (1-(percentageAirRes/100)) * multiplicator * ((boost/100)-1);
         int roundedTotalDamage = Math.round(totalDamage);
         if (roundedTotalDamage < 0){
             return "0";
@@ -135,6 +159,13 @@ public class MainWindowController {
         infoLabel.setText("");
         resetSpellButtons();
         synchroLvl3.setSelected(true);
+        resetMultiplicator();
+    }
+
+    public void resetMultiplicator(){
+        damageMultiplicatorOutput.setText("");
+        damageMultiplicatorNameInput.setText("");
+        damageMultiplicatorValueInput.setText("");
     }
 
     public void resetSpellButtons(){
