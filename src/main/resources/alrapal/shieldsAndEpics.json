@@ -1,0 +1,12 @@
+[
+  {
+    "name" : "Crocobur",
+    "meleeMultiplier" : 0,
+    "rangedMultiplier" : 10
+  },
+  {
+    "name" : "Fallenster",
+    "meleeMultiplier" : 20,
+    "rangedMultiplier" : 0
+  }
+]

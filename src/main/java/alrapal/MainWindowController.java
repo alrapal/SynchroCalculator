@@ -1,14 +1,17 @@
 package alrapal;
 import alrapal.Objects.*;
 import alrapal.Exceptions.InvalidBoostException;
-import java.io.IOException;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.CustomTextField;
+import org.controlsfx.control.textfield.TextFields;
+
+import java.util.*;
 
 
 public class MainWindowController {
@@ -19,13 +22,21 @@ public class MainWindowController {
     public static final String EOL = System.lineSeparator();
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
+    private Map <String , ShieldAndEpic>  allShieldsAndEpics;
+    private String [] suggestions = {"Hey", "Hello", "Hello World"};
+
+
+    public void initialize(){
+        TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////JAVAFX ELEMENTS///////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
     public Button reset;
-    public Label damages;
+    public Label rangedDamages;
+    public Label meleeDamages;
     public Parent mainRoot;
     public TextField boost;
     public Label infoLabel;
@@ -36,13 +47,15 @@ public class MainWindowController {
     public RadioButton synchroLvl1;
     public RadioButton synchroLvl2;
     public RadioButton synchroLvl3;
-    public TextField damageMultiplicatorNameInput;
-    public TextField damageMultiplicatorValueInput;
-    public Label damageMultiplicatorOutput;
+    public TextField damageMultiplierNameInput;
+    public TextField damageMultiplierValueInput;
+    public Label damageMultiplierOutput;
+    public CustomTextField shieldAndEpicInput;
 
 
 
     //////////////////////////////////////SPELL BUTTONS ////////////////////////////////
+
 
     public ToggleButton teleportationButton;
     public ToggleButton RSbutton;
@@ -69,9 +82,9 @@ public class MainWindowController {
     //////////////////////////////////////DIRECT INPUTS/////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    public void updateMultiplicator(ActionEvent actionEvent){
-        String name = damageMultiplicatorNameInput.getText();
-        String valueStr = damageMultiplicatorValueInput.getText();
+    public void updateDamageMultiplier(ActionEvent actionEvent){
+        String name = damageMultiplierNameInput.getText();
+        String valueStr = damageMultiplierValueInput.getText();
         try {
             float newMultiplicator = Float.valueOf(valueStr)/100;
             enemy.addMultiplicator(newMultiplicator);
@@ -82,9 +95,9 @@ public class MainWindowController {
     }
 
     private void updateMultiplicatorOutput(String name, String value){
-        String currentMultiplicators = damageMultiplicatorOutput.getText();
+        String currentMultiplicators = damageMultiplierOutput.getText();
         String newMultiplicator = name + " - " + value +"%" + EOL;
-        damageMultiplicatorOutput.setText(currentMultiplicators + newMultiplicator);
+        damageMultiplierOutput.setText(currentMultiplicators + newMultiplicator);
     }
 
     public String calculateDamages() {
@@ -119,6 +132,7 @@ public class MainWindowController {
             resFixes.setText(newValue);
         });
     }
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////INPUT BY SELECTION////////////////////////////
@@ -155,7 +169,7 @@ public class MainWindowController {
         boost.setText("0");
         resFixes.setText("0");
         resPercentage.setText("0");
-        damages.setText("0");
+        rangedDamages.setText("0");
         infoLabel.setText("");
         resetSpellButtons();
         synchroLvl3.setSelected(true);
@@ -163,9 +177,9 @@ public class MainWindowController {
     }
 
     public void resetMultiplicator(){
-        damageMultiplicatorOutput.setText("");
-        damageMultiplicatorNameInput.setText("");
-        damageMultiplicatorValueInput.setText("");
+        damageMultiplierOutput.setText("");
+        damageMultiplierNameInput.setText("");
+        damageMultiplierValueInput.setText("");
     }
 
     public void resetSpellButtons(){
@@ -236,7 +250,7 @@ public class MainWindowController {
             synchro.setBoost(Integer.parseInt(boost.getText()));
             enemy.setAirRes(Integer.parseInt(resFixes.getText()));
             enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
-            damages.setText(calculateDamages());
+            rangedDamages.setText(calculateDamages());
         } catch (InvalidBoostException invalidBoostFormat) {
             resetValues(actionEvent);
             infoLabel.setText(invalidBoostFormat.getMessage());
@@ -244,4 +258,6 @@ public class MainWindowController {
             infoLabel.setText("Tu dois taper un nombre dans chaque champ ci-dessus");
         }
     }
+
+
 }

@@ -244,9 +244,9 @@
     -fx-text-fill: white;
     -fx-font-family: Arial;
 }
-#damageMultiplicatorNameInput{
+#damageMultiplierNameInput{
 }
-#damageMultiplicatorOutput{
+#damageMultiplierOutput{
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: Arial;
