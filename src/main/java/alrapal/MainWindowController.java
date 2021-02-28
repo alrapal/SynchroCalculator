@@ -21,12 +21,32 @@ public class MainWindowController {
     public static final String EOL = System.lineSeparator();
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
-    private Map <String , ShieldAndEpic>  allShieldsAndEpics;
-    private ArrayList <String> suggestions = new ArrayList<>();
+    public static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
+    public static ArrayList <String> suggestions = new ArrayList<>();
 
 
     public void initialize(){
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////GETTERS AND SETTERS///////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    public Map<String, ShieldAndEpic> getAllShieldsAndEpics() {
+        return allShieldsAndEpics;
+    }
+
+    public void setAllShieldsAndEpics(Map<String, ShieldAndEpic> allShieldsAndEpics) {
+        this.allShieldsAndEpics = allShieldsAndEpics;
+    }
+
+    public ArrayList<String> getSuggestions() {
+        return suggestions;
+    }
+
+    public void setSuggestions(ArrayList<String> suggestions) {
+        this.suggestions = suggestions;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -151,23 +171,43 @@ public class MainWindowController {
         }
     }
 
-    public void resetValues(ActionEvent actionEvent) {
-        enemy = new Enemy();
-        synchro = new Synchro();
-        boost.setText("0");
-        resFixes.setText("0");
-        resPercentage.setText("0");
-        rangedDamages.setText("0");
+    public void resetAllValues(ActionEvent actionEvent) {
         infoLabel.setText("");
+        resetSynchro();
+        resetDamages();
         resetSpellButtons();
-        synchroLvl3.setSelected(true);
-        resetMultiplicator();
+        resetEnemyResistances();
+        resetMultipliers();
+        resetShieldsAndEpics();
     }
 
-    public void resetMultiplicator(){
+    public void resetSynchro(){
+        synchro = new Synchro();
+        synchroLvl3.setSelected(true);
+        boost.setText("0");
+        resetSpellButtons();
+    }
+
+    public void resetDamages(){
+        rangedDamages.setText("De 0 à 0");
+        meleeDamages.setText("De 0 à 0");
+    }
+
+    public void resetEnemyResistances(){
+        resFixes.setText("0");
+        resPercentage.setText("0");
+    }
+
+    public void resetMultipliers(){
         damageMultiplierOutput.setText("");
         damageMultiplierNameInput.setText("");
         damageMultiplierValueInput.setText("");
+        enemy.setDamageMultiplier(1);
+    }
+
+    public void resetShieldsAndEpics(){
+        shieldMultiplierOutput.setText("");
+        enemy.setShieldAndEpics(new ArrayList<>());
     }
 
     public void resetSpellButtons(){
@@ -238,13 +278,13 @@ public class MainWindowController {
             synchro.setBoost(Integer.parseInt(boost.getText()));
             enemy.setAirRes(Integer.parseInt(resFixes.getText()));
             enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
-            rangedDamages.setText(calculateRangedDamagesMin());
-            meleeDamages.setText(calculateMeleeDamagesMin());
+            rangedDamages.setText("De " + calculateRangedDamagesMin() + " à " + calculateRangedDamagesMax());
+            meleeDamages.setText("De " + calculateMeleeDamagesMin() + " à " + calculateMeleeDamagesMax());
         } catch (InvalidBoostException invalidBoostFormat) {
-            resetValues(actionEvent);
+            resetAllValues(actionEvent);
             infoLabel.setText(invalidBoostFormat.getMessage());
         }catch (Exception e){
-            infoLabel.setText("Tu dois taper un nombre dans chaque champ ci-dessus");
+            infoLabel.setText("Format invalide. Merci de taper un nombre.");
         }
     }
 
@@ -253,12 +293,20 @@ public class MainWindowController {
         return calculateDamages(rangedMultiplier);
     }
 
+    public String calculateRangedDamagesMax() {
+        float rangedMultiplier = enemy.getTotalRangedMultiplierMax();
+        return calculateDamages(rangedMultiplier);
+    }
+
     public String calculateMeleeDamagesMin(){
         float meleeMultiplier = enemy.getTotalMeleeMultiplierMin();
         return calculateDamages(meleeMultiplier);
     }
 
-    //TODO calculate damages max and display them (same label)
+    public String calculateMeleeDamagesMax(){
+        float meleeMultiplier = enemy.getTotalMeleeMultiplierMax();
+        return calculateDamages(meleeMultiplier);
+    }
 
     public String calculateDamages(float meleeOrRangeMultiplier){
         float boost = synchro.getBoost();
@@ -279,5 +327,12 @@ public class MainWindowController {
         String choice = shieldAndEpicInput.getText();
         ShieldAndEpic addedShieldOrEpic = allShieldsAndEpics.get(choice);
         enemy.addShieldOrEpic(addedShieldOrEpic);
+        String currentShieldsOrEpics = shieldMultiplierOutput.getText();
+        shieldMultiplierOutput.setText(currentShieldsOrEpics + addedShieldOrEpic.getName() + EOL);
     }
 }
+
+//TODO: check for the formula if it is working
+//TODO: layout + buttons + reset per category
+//TODO: write all items as JSON
+//TODO: export setting choice (lvl of synchro)

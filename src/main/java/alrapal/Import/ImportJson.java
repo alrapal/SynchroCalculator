@@ -1,5 +1,6 @@
 package alrapal.Import;
 
+import alrapal.MainWindowController;
 import alrapal.Objects.ShieldAndEpic;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,14 +12,17 @@ import java.io.IOException;
 import java.util.*;
 
 public class ImportJson {
-    public static void importItems(){
-        ArrayList <String> suggestions = new ArrayList<>();
-        Map <String, ShieldAndEpic> allShieldsAndEpics = new HashMap<>();
+    public static void importItems(Map<String, ShieldAndEpic> allShieldsAndEpics, ArrayList suggestions){
         JSONParser jsonParser = new JSONParser();
-        try(FileReader fileReader = new FileReader("alrapal/shieldsAndEpics.json")) {
+        try(FileReader fileReader = new FileReader("src/main/resources/alrapal/shieldsAndEpics.json")) {
             Object _itemsToImport = jsonParser.parse(fileReader);
             JSONArray itemsToImport = (JSONArray) _itemsToImport;
-        //TODO: method that import all shields and epics and create the object in the map as well as the suggestion list for the  autocomplete based on item names.
+            Iterator iterator = itemsToImport.iterator();
+            while (iterator.hasNext()){
+                ShieldAndEpic shieldAndEpic = parseToJava((JSONObject) iterator.next());
+                allShieldsAndEpics.put(shieldAndEpic.getName(), shieldAndEpic);
+                suggestions.add(shieldAndEpic.getName());
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -28,9 +32,15 @@ public class ImportJson {
         }
     }
 
-    private static void parseToJava(JSONObject jsonObject){
+    private static ShieldAndEpic parseToJava(JSONObject jsonObject){
         String name = (String) jsonObject.get("name");
-        //TODO : Continue on parsing
+        float meleeMultiplierMin = ((Long) jsonObject.get("meleeMultiplierMin")).floatValue();
+        float rangedMultiplierMin = ((Long) jsonObject.get("rangedMultiplierMin")).floatValue();
+        float meleeMultiplierMax = ((Long) jsonObject.get("meleeMultiplierMax")).floatValue();
+        float rangedMultiplierMax = ((Long) jsonObject.get("rangedMultiplierMax")).floatValue();
+        ShieldAndEpic shieldAndEpic = new ShieldAndEpic(name, meleeMultiplierMin, meleeMultiplierMax, rangedMultiplierMin, rangedMultiplierMax);
+        return shieldAndEpic;
+
     }
 
 }

@@ -1,5 +1,7 @@
 package alrapal;
 
+import alrapal.Import.ImportJson;
+import alrapal.Objects.ShieldAndEpic;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +10,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JavaFX App
@@ -17,11 +22,18 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
+    public void init() throws Exception {
+        ImportJson.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
+    }
+
+    @Override
     public void start(Stage mainWindow) throws IOException {
+
         mainWindow.setTitle("Synchro Calculator");
         scene = new Scene(loadFXML("mainWindow"));
         //setIcon(mainWindow);
         mainWindow.setScene(scene);
+        ImportJson.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
         mainWindow.show();
 
     }

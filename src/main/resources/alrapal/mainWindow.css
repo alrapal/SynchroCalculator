@@ -11,7 +11,7 @@
     -fx-background-color: white;
     -fx-opacity: 0.8;
 }
-#titleInfos{
+#enemyInfos{
     -fx-font-family: Arial;
     -fx-font-size: 14pt;
     -fx-text-fill: white;
@@ -251,3 +251,42 @@
     -fx-text-fill: white;
     -fx-font-family: Arial;
 }
+#SynchroLabel{
+    -fx-font-family: Arial;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+#shieldMultiplierOutput{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+}
+#shieldMultiplierBackground{
+    -fx-opacity: 0.8;
+}
+#shieldLabel{
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+}
+#damageMultiplicatorLabel{
+    -fx-text-fill: white;
+    -fx-font-family: Arial;
+}
+#rangedDamagePicture{
+
+}
+#meleeDamagePicture{
+
+}
+#meleeDamages{
+    -fx-font-family: Arial;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+
+#rangedDamages{
+    -fx-font-family: Arial;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+

@@ -33,6 +33,8 @@ public class Enemy {
     public void setPercentageAirRes(float percentageAirRes) {this.percentageAirRes = percentageAirRes;}
     public float getDamageMultiplier(){return damageMultiplier;}
     public void setDamageMultiplier(float damageMultiplier){this.damageMultiplier = damageMultiplier;}
+    public ArrayList<ShieldAndEpic> getShieldAndEpics() {return shieldAndEpics;}
+    public void setShieldAndEpics(ArrayList<ShieldAndEpic> shieldAndEpics) {this.shieldAndEpics = shieldAndEpics; }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////METHODS///////////////////////////////////////
@@ -53,6 +55,17 @@ public class Enemy {
         return multiplier;
     }
 
+    public float getTotalRangedMultiplierMax(){
+        if (shieldAndEpics.isEmpty()){
+            return 1;
+        }
+        float multiplier = 1;
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+            multiplier = multiplier * shieldAndEpic.calculateRangedMultiplierMax();
+        }
+        return multiplier;
+    }
+
     public float getTotalMeleeMultiplierMin(){
         if (shieldAndEpics.isEmpty()){
             return 1;
@@ -64,10 +77,20 @@ public class Enemy {
         return multiplier;
     }
 
+    public float getTotalMeleeMultiplierMax(){
+        if (shieldAndEpics.isEmpty()){
+            return 1;
+        }
+        float multiplier = 1;
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+            multiplier = multiplier * shieldAndEpic.calculateMeleeMultiplierMax();
+        }
+        return multiplier;
+    }
+
     public void addShieldOrEpic(ShieldAndEpic shieldAndEpic){
         this.shieldAndEpics.add(shieldAndEpic);
     }
 
-    //TODO : get multiplier max
 
 }
