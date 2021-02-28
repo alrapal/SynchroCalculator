@@ -1,21 +1,23 @@
 package alrapal.Objects;
 
-import alrapal.Exceptions.InvalidBoostException;
-
 public class ShieldAndEpic {
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////ATTRIBUTES////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
     private String name;
-    private int meleeMultiplier;
-    private int rangedMultiplier;
+    private int meleeMultiplierMin;
+    private int meleeMultiplierMax;
+    private int rangedMultiplierMin;
+    private int rangedMultiplierMax;
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////CONSTRUCTORS//////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
-    public ShieldAndEpic(String name, int meleeMultiplier, int rangedMultiplier){
+    public ShieldAndEpic(String name, int meleeMultiplierMin, int meleeMultiplierMax, int rangedMultiplierMin, int rangedMultiplierMax){
         this.name = name;
-        this.meleeMultiplier = meleeMultiplier;
-        this.rangedMultiplier = rangedMultiplier;
+        this.meleeMultiplierMin = meleeMultiplierMin;
+        this.rangedMultiplierMin = rangedMultiplierMin;
+        this.meleeMultiplierMax = meleeMultiplierMax;
+        this.rangedMultiplierMax = rangedMultiplierMax;
     }
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////GETTERS & SETTERS/////////////////////////////
@@ -23,18 +25,28 @@ public class ShieldAndEpic {
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
-    public int getMeleeMultiplier() {return meleeMultiplier;}
-    public void setMeleeMultiplier(int meleeMultiplier) {this.meleeMultiplier = meleeMultiplier;}
-    public int getRangedMultiplier() {return rangedMultiplier;}
-    public void setRangedMultiplier(int rangedMultiplier) {this.rangedMultiplier = rangedMultiplier;}
+    public int getMeleeMultiplierMin() {return meleeMultiplierMin;}
+    public void setMeleeMultiplierMin(int meleeMultiplierMin) {this.meleeMultiplierMin = meleeMultiplierMin;}
+    public int getRangedMultiplierMin() {return rangedMultiplierMin;}
+    public void setRangedMultiplierMin(int rangedMultiplierMin) {this.rangedMultiplierMin = rangedMultiplierMin;}
+    public int getMeleeMultiplierMax() {return meleeMultiplierMax;}
+    public void setMeleeMultiplierMax(int meleeMultiplierMax) {this.meleeMultiplierMax = meleeMultiplierMax;}
+    public int getRangedMultiplierMax() {return rangedMultiplierMax;}
+    public void setRangedMultiplierMax(int rangedMultiplierMax) {this.rangedMultiplierMax = rangedMultiplierMax;}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////METHODS///////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    public float calculateRangedMultiplier(){
-        return (this.rangedMultiplier /100 ) + 1;}
+    public float calculateRangedMultiplierMin(){
+        return (this.rangedMultiplierMin /100 ) + 1;}
 
-    public float calculateMeleeMultiplier(){
-        return (this.meleeMultiplier /100 ) + 1;}
+    public float calculateRangedMultiplierMax(){
+        return (this.rangedMultiplierMax /100 ) + 1;}
+
+    public float calculateMeleeMultiplierMin(){
+        return (this.meleeMultiplierMin /100 ) + 1;}
+
+    public float calculateMeleeMultiplierMax(){
+        return (this.meleeMultiplierMax /100 ) + 1;}
 }

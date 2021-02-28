@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -23,7 +22,7 @@ public class MainWindowController {
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
     private Map <String , ShieldAndEpic>  allShieldsAndEpics;
-    private String [] suggestions = {"Hey", "Hello", "Hello World"};
+    private ArrayList <String> suggestions = new ArrayList<>();
 
 
     public void initialize(){
@@ -51,6 +50,8 @@ public class MainWindowController {
     public TextField damageMultiplierValueInput;
     public Label damageMultiplierOutput;
     public CustomTextField shieldAndEpicInput;
+    public Button addShield;
+    public Label shieldMultiplierOutput;
 
 
 
@@ -82,12 +83,14 @@ public class MainWindowController {
     //////////////////////////////////////DIRECT INPUTS/////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
+
+
     public void updateDamageMultiplier(ActionEvent actionEvent){
         String name = damageMultiplierNameInput.getText();
         String valueStr = damageMultiplierValueInput.getText();
         try {
             float newMultiplicator = Float.valueOf(valueStr)/100;
-            enemy.addMultiplicator(newMultiplicator);
+            enemy.addMultiplier(newMultiplicator);
             updateMultiplicatorOutput(name, valueStr);
         }catch (NumberFormatException numberFormatException){
             infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
@@ -98,21 +101,6 @@ public class MainWindowController {
         String currentMultiplicators = damageMultiplierOutput.getText();
         String newMultiplicator = name + " - " + value +"%" + EOL;
         damageMultiplierOutput.setText(currentMultiplicators + newMultiplicator);
-    }
-
-    public String calculateDamages() {
-        float boost = synchro.getBoost();
-        float baseDamage = synchro.getBaseDamage();
-        float airRes = enemy.getAirRes();
-        float percentageAirRes = enemy.getPercentageAirRes();
-        float multiplicator = enemy.getDamageMultiplicator();
-        float totalDamage = (baseDamage - airRes) * (1-(percentageAirRes/100)) * multiplicator * ((boost/100)-1);
-        int roundedTotalDamage = Math.round(totalDamage);
-        if (roundedTotalDamage < 0){
-            return "0";
-        }else{
-            return String.valueOf(roundedTotalDamage);
-        }
     }
 
     public void handleResFixInput(ActionEvent actionEvent) {
@@ -250,7 +238,8 @@ public class MainWindowController {
             synchro.setBoost(Integer.parseInt(boost.getText()));
             enemy.setAirRes(Integer.parseInt(resFixes.getText()));
             enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
-            rangedDamages.setText(calculateDamages());
+            rangedDamages.setText(calculateRangedDamagesMin());
+            meleeDamages.setText(calculateMeleeDamagesMin());
         } catch (InvalidBoostException invalidBoostFormat) {
             resetValues(actionEvent);
             infoLabel.setText(invalidBoostFormat.getMessage());
@@ -259,5 +248,36 @@ public class MainWindowController {
         }
     }
 
+    public String calculateRangedDamagesMin() {
+        float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
+        return calculateDamages(rangedMultiplier);
+    }
 
+    public String calculateMeleeDamagesMin(){
+        float meleeMultiplier = enemy.getTotalMeleeMultiplierMin();
+        return calculateDamages(meleeMultiplier);
+    }
+
+    //TODO calculate damages max and display them (same label)
+
+    public String calculateDamages(float meleeOrRangeMultiplier){
+        float boost = synchro.getBoost();
+        float baseDamage = synchro.getBaseDamage();
+        float airRes = enemy.getAirRes();
+        float percentageAirRes = enemy.getPercentageAirRes();
+        float multiplier = enemy.getDamageMultiplier();
+        float totalDamage = (baseDamage - airRes) * (1-(percentageAirRes/100)) * multiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
+        int roundedTotalDamage = Math.round(totalDamage);
+        if (roundedTotalDamage < 0){
+            return "0";
+        }else{
+            return String.valueOf(roundedTotalDamage);
+        }
+    }
+
+    public void updateShieldMultiplier(ActionEvent actionEvent) {
+        String choice = shieldAndEpicInput.getText();
+        ShieldAndEpic addedShieldOrEpic = allShieldsAndEpics.get(choice);
+        enemy.addShieldOrEpic(addedShieldOrEpic);
+    }
 }

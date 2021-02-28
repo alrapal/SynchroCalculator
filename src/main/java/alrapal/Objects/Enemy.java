@@ -1,5 +1,7 @@
 package alrapal.Objects;
 
+import java.util.ArrayList;
+
 public class Enemy {
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////ATTRIBUTES////////////////////////////////////
@@ -8,8 +10,8 @@ public class Enemy {
 
     private float airRes;
     private float percentageAirRes;
-    private float damageMultiplicator;
-    //TODO : shield
+    private float damageMultiplier;
+    private ArrayList <ShieldAndEpic> shieldAndEpics;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////CONSTRUCTORS//////////////////////////////////
@@ -18,7 +20,8 @@ public class Enemy {
     public Enemy()
     {   this.airRes = 0;
         this.percentageAirRes = 0;
-        this.damageMultiplicator = 1;}
+        this.damageMultiplier = 1;
+        this.shieldAndEpics = new ArrayList<>();}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////GETTERS & SETTERS/////////////////////////////
@@ -28,14 +31,43 @@ public class Enemy {
     public void setAirRes(float airRes) {this.airRes = airRes;}
     public float getPercentageAirRes() {return percentageAirRes;}
     public void setPercentageAirRes(float percentageAirRes) {this.percentageAirRes = percentageAirRes;}
-    public float getDamageMultiplicator(){return damageMultiplicator;}
-    public void setDamageMultiplicator(float damageMultiplicator){this.damageMultiplicator = damageMultiplicator;}
+    public float getDamageMultiplier(){return damageMultiplier;}
+    public void setDamageMultiplier(float damageMultiplier){this.damageMultiplier = damageMultiplier;}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////METHODS///////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    public void addMultiplicator (float newMultiplicator){
-        this.damageMultiplicator = this.damageMultiplicator*newMultiplicator;
+    public void addMultiplier(float newMultiplier){
+        this.damageMultiplier = this.damageMultiplier *newMultiplier;
     }
+
+    public float getTotalRangedMultiplierMin(){
+        if (shieldAndEpics.isEmpty()){
+            return 1;
+        }
+        float multiplier = 1;
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+            multiplier = multiplier * shieldAndEpic.calculateRangedMultiplierMin();
+        }
+        return multiplier;
+    }
+
+    public float getTotalMeleeMultiplierMin(){
+        if (shieldAndEpics.isEmpty()){
+            return 1;
+        }
+        float multiplier = 1;
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+            multiplier = multiplier * shieldAndEpic.calculateMeleeMultiplierMin();
+        }
+        return multiplier;
+    }
+
+    public void addShieldOrEpic(ShieldAndEpic shieldAndEpic){
+        this.shieldAndEpics.add(shieldAndEpic);
+    }
+
+    //TODO : get multiplier max
+
 }

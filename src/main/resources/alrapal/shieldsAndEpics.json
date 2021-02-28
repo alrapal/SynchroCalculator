@@ -1,12 +1,79 @@
 [
   {
-    "name" : "Crocobur",
-    "meleeMultiplier" : 0,
-    "rangedMultiplier" : 10
+    "name" : "Bouclier du Craqueleur",
+    "meleeMultiplierMin" : -3,
+    "rangedMultiplierMin" : 2,
+    "meleeMultiplierMax" : -3,
+    "rangedMultiplierMax" : 3
   },
   {
-    "name" : "Fallenster",
-    "meleeMultiplier" : 20,
-    "rangedMultiplier" : 0
+    "name" : "Derma Tho",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -3,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -4
+  },
+  {
+    "name" : "Bouclier Du Chef Crocodaille",
+    "meleeMultiplierMin" : -3,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -4,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Bouclier Du Chouque",
+    "meleeMultiplierMin" : -4,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -5,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Bouclier De Choudini",
+    "meleeMultiplierMin" : 6,
+    "rangedMultiplierMin" : -4,
+    "meleeMultiplierMax" : 6,
+    "rangedMultiplierMax" : -6
+  },
+  {
+    "name" : "Ftalmo",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -5,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -6
+  },
+  {
+    "name" : "Bulbouclier",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -5,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -8
+  },
+  {
+    "name" : "Bouclier Terrdala",
+    "meleeMultiplierMin" : -6,
+    "rangedMultiplierMin" : 8,
+    "meleeMultiplierMax" : -8,
+    "rangedMultiplierMax" : 8
+  },
+  {
+    "name" : "Bouclier En Slip",
+    "meleeMultiplierMin" : 8,
+    "rangedMultiplierMin" : -6,
+    "meleeMultiplierMax" : 8,
+    "rangedMultiplierMax" : -8
+  },
+  {
+    "name" : "Bouclier Des Brigandins",
+    "meleeMultiplierMin" : -7,
+    "rangedMultiplierMin" : 9,
+    "meleeMultiplierMax" : -9,
+    "rangedMultiplierMax" : 9
+  },
+  {
+    "name" : "Bouclier de Feudala",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -5,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -6
   }
 ]
