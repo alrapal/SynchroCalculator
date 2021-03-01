@@ -11,6 +11,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class MainWindowController {
@@ -207,7 +208,8 @@ public class MainWindowController {
 
     public void resetShieldsAndEpics(){
         shieldMultiplierOutput.setText("");
-        enemy.setShieldAndEpics(new ArrayList<>());
+        shieldAndEpicInput.setText("");
+        enemy.setShieldAndEpics(new HashMap<String, ShieldAndEpic>());
     }
 
     public void resetSpellButtons(){
@@ -278,8 +280,12 @@ public class MainWindowController {
             synchro.setBoost(Integer.parseInt(boost.getText()));
             enemy.setAirRes(Integer.parseInt(resFixes.getText()));
             enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
-            rangedDamages.setText("De " + calculateRangedDamagesMin() + " à " + calculateRangedDamagesMax());
-            meleeDamages.setText("De " + calculateMeleeDamagesMin() + " à " + calculateMeleeDamagesMax());
+            int rangedDamagesMin = calculateRangedDamagesMin();
+            int rangedDamagesMax = calculateRangedDamagesMax();
+            int meleeDamagesMin = calculateMeleeDamagesMin();
+            int meleeDamagesMax = calculateMeleeDamagesMax();
+            displayRangedDamages(rangedDamagesMin, rangedDamagesMax);
+            displayMeleeDamages(meleeDamagesMin, meleeDamagesMax);
         } catch (InvalidBoostException invalidBoostFormat) {
             resetAllValues(actionEvent);
             infoLabel.setText(invalidBoostFormat.getMessage());
@@ -288,27 +294,43 @@ public class MainWindowController {
         }
     }
 
-    public String calculateRangedDamagesMin() {
+        private void displayRangedDamages(int rangedDamageMin, int rangedDamageMax){
+        if (rangedDamageMin < rangedDamageMax){
+            rangedDamages.setText("De " + rangedDamageMin + " à " + rangedDamageMax);
+        }else {
+            rangedDamages.setText("De " + rangedDamageMax + " à " + rangedDamageMin);
+        }
+        }
+
+    private void displayMeleeDamages(int meleeDamageMin, int meleeDamageMax){
+        if (meleeDamageMin < meleeDamageMax){
+            meleeDamages.setText("De " + meleeDamageMin + " à " + meleeDamageMax);
+        }else {
+            meleeDamages.setText("De " + meleeDamageMax + " à " + meleeDamageMin);
+        }
+    }
+
+    public int calculateRangedDamagesMin() {
         float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
         return calculateDamages(rangedMultiplier);
     }
 
-    public String calculateRangedDamagesMax() {
+    public int calculateRangedDamagesMax() {
         float rangedMultiplier = enemy.getTotalRangedMultiplierMax();
         return calculateDamages(rangedMultiplier);
     }
 
-    public String calculateMeleeDamagesMin(){
+    public int calculateMeleeDamagesMin(){
         float meleeMultiplier = enemy.getTotalMeleeMultiplierMin();
         return calculateDamages(meleeMultiplier);
     }
 
-    public String calculateMeleeDamagesMax(){
+    public int calculateMeleeDamagesMax(){
         float meleeMultiplier = enemy.getTotalMeleeMultiplierMax();
         return calculateDamages(meleeMultiplier);
     }
 
-    public String calculateDamages(float meleeOrRangeMultiplier){
+    public int calculateDamages(float meleeOrRangeMultiplier){
         float boost = synchro.getBoost();
         float baseDamage = synchro.getBaseDamage();
         float airRes = enemy.getAirRes();
@@ -317,22 +339,58 @@ public class MainWindowController {
         float totalDamage = (baseDamage - airRes) * (1-(percentageAirRes/100)) * multiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
         int roundedTotalDamage = Math.round(totalDamage);
         if (roundedTotalDamage < 0){
-            return "0";
+            return 0;
         }else{
-            return String.valueOf(roundedTotalDamage);
+            return roundedTotalDamage;
         }
     }
 
-    public void updateShieldMultiplier(ActionEvent actionEvent) {
+    public void addShieldMultiplier(ActionEvent actionEvent) {
+
         String choice = shieldAndEpicInput.getText();
+        if (!allShieldsAndEpics.containsKey(choice)){
+            infoLabel.setText("L'objet n'existe pas.");
+            return;
+        }
         ShieldAndEpic addedShieldOrEpic = allShieldsAndEpics.get(choice);
-        enemy.addShieldOrEpic(addedShieldOrEpic);
-        String currentShieldsOrEpics = shieldMultiplierOutput.getText();
-        shieldMultiplierOutput.setText(currentShieldsOrEpics + addedShieldOrEpic.getName() + EOL);
+        if (enemy.getShieldAndEpics().containsKey(choice)) {
+            infoLabel.setText("L'item '" + choice + "' est déjà pris en compte.");
+        } else {
+            enemy.getShieldAndEpics().put(addedShieldOrEpic.getName(), addedShieldOrEpic);
+            String currentShieldsOrEpics = shieldMultiplierOutput.getText();
+            shieldMultiplierOutput.setText(currentShieldsOrEpics + addedShieldOrEpic.getName() + EOL);
+        }
+        shieldAndEpicInput.setText("");
+    }
+
+    public void removeShieldMultiplier(ActionEvent actionEvent) {
+        String choice = shieldAndEpicInput.getText();
+        if (!allShieldsAndEpics.containsKey(choice)){
+            infoLabel.setText("L'objet n'existe pas.");
+            return;
+        }
+
+        //TODO: remove object from enemy
+        if (!enemy.getShieldAndEpics().containsKey(choice)) {
+            infoLabel.setText("L'item '" + choice + "' n'a pas été ajouté précedemment.");
+        } else {
+
+            enemy.getShieldAndEpics().remove(choice);
+            String currentShieldsOrEpics = "";
+            Iterator iterator = enemy.getShieldAndEpics().values().iterator();
+            while (iterator.hasNext()){
+                ShieldAndEpic currentShieldOrEpic = (ShieldAndEpic) iterator.next();
+                String shieldOrEpicName = currentShieldOrEpic.getName();
+                currentShieldsOrEpics += shieldOrEpicName + EOL;
+            }
+            shieldMultiplierOutput.setText(currentShieldsOrEpics);
+        }
+        shieldAndEpicInput.setText("");
     }
 }
 
 //TODO: check for the formula if it is working
-//TODO: layout + buttons + reset per category
+//TODO: layout + buttons + reset per category or remove
 //TODO: write all items as JSON
 //TODO: export setting choice (lvl of synchro)
+//TODO: gerer la touche entrée sur les boutons

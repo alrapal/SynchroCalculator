@@ -237,12 +237,8 @@
     -fx-font-size: 10pt;
     -fx-font-style: italic;
 }
-#damageMultiplicatorBackground{
+#damageMultiplierBackground{
     -fx-opacity: 0.8;
-}
-#damageMultiplicatorLabel{
-    -fx-text-fill: white;
-    -fx-font-family: Arial;
 }
 #damageMultiplierNameInput{
 }
@@ -256,6 +252,9 @@
     -fx-font-size: 14pt;
     -fx-text-fill: white;
 }
+#SynchroBackground{
+    -fx-opacity: 0.8;
+}
 #shieldMultiplierOutput{
     -fx-background-color: transparent;
     -fx-text-fill: white;
@@ -268,7 +267,7 @@
     -fx-text-fill: white;
     -fx-font-family: Arial;
 }
-#damageMultiplicatorLabel{
+#damageMultiplierLabel{
     -fx-text-fill: white;
     -fx-font-family: Arial;
 }
@@ -289,4 +288,31 @@
     -fx-font-size: 14pt;
     -fx-text-fill: white;
 }
-
+#removeShield{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmall.png');
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+#removeShield:armed{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmallSelected.png');
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+#addShield{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmall.png');
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+#addShield:armed{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmallSelected.png');
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}

@@ -29,8 +29,9 @@
             <Label fx:id="damageMultiplierLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="136.0" prefHeight="17.0" prefWidth="115.0" text="Dommages subits :" />
             <TextField fx:id="damageMultiplierNameInput" layoutX="4.0" layoutY="158.0" prefHeight="27.0" prefWidth="69.0" promptText="Nom" />
             <TextField fx:id="damageMultiplierValueInput" layoutX="83.0" layoutY="158.0" prefHeight="27.0" prefWidth="69.0" promptText="Valeur" />
-            <Button fx:id="add" defaultButton="true" layoutX="163.0" layoutY="156.0" mnemonicParsing="false" onAction="#updateDamageMultiplier" prefHeight="30.0" prefWidth="62.0" text="Ajouter" />
+            <Button fx:id="add" defaultButton="true" layoutX="160.0" layoutY="156.0" mnemonicParsing="false" onAction="#updateDamageMultiplier" prefHeight="30.0" prefWidth="30.0" text="+" />
             <Label fx:id="damageMultiplierOutput" alignment="TOP_LEFT" layoutX="3.0" layoutY="189.0" prefHeight="49.0" prefWidth="226.0" />
+            <Button fx:id="removeMultiplier" defaultButton="true" layoutX="198.0" layoutY="156.0" mnemonicParsing="false" onAction="#updateDamageMultiplier" prefHeight="30.0" prefWidth="30.0" text="-" />
          </children>
       </AnchorPane>
       <Rectangle fx:id="SynchroBackground" arcHeight="5.0" arcWidth="5.0" fill="#131239" height="125.0" layoutX="251.0" layoutY="10.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="219.0" />
@@ -215,7 +216,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="reset" cancelButton="true" layoutX="29.0" layoutY="296.0" mnemonicParsing="false" onAction="#resetAllValues" prefHeight="30.0" prefWidth="120.0" text="Reset" />
+      <Button fx:id="reset" cancelButton="true" layoutX="29.0" layoutY="296.0" mnemonicParsing="false" onAction="#resetAllValues" prefHeight="30.0" prefWidth="120.0" text="Reset total" />
       <Button fx:id="calculate" defaultButton="true" layoutX="29.0" layoutY="263.0" mnemonicParsing="false" onAction="#displayDamage" prefHeight="30.0" prefWidth="120.0" text="Calculer" />
       <Label fx:id="rangedDamages" layoutX="317.0" layoutY="261.0" prefHeight="34.0" prefWidth="147.0" text="Distance" />
       <Label fx:id="meleeDamages" layoutX="317.0" layoutY="294.0" prefHeight="34.0" prefWidth="147.0" text="Mêlée" />
@@ -223,8 +224,9 @@
       <ImageView fx:id="meleeDamagePicture" fitHeight="15.0" fitWidth="15.0" layoutX="292.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="shieldLabel" alignment="CENTER" layoutX="246.0" layoutY="146.0" prefHeight="17.0" prefWidth="202.0" text="Boucliers et items légendaires :" />
       <CustomTextField fx:id="shieldAndEpicInput" layoutX="257.0" layoutY="167.0" prefHeight="26.0" prefWidth="134.0" promptText="Chercher un item" />
-      <Button fx:id="addShield" defaultButton="true" layoutX="399.0" layoutY="165.0" mnemonicParsing="false" onAction="#updateShieldMultiplier" prefHeight="30.0" prefWidth="62.0" text="Ajouter" />
+      <Button fx:id="addShield" defaultButton="true" layoutX="396.0" layoutY="165.0" mnemonicParsing="false" onAction="#addShieldMultiplier" prefHeight="30.0" prefWidth="30.0" text="+" />
       <Label fx:id="shieldMultiplierOutput" alignment="TOP_LEFT" layoutX="258.0" layoutY="199.0" prefHeight="49.0" prefWidth="202.0" />
+      <Button fx:id="removeShield" defaultButton="true" layoutX="433.0" layoutY="165.0" mnemonicParsing="false" onAction="#removeShieldMultiplier" prefHeight="30.0" prefWidth="30.0" text="-" />
 
    </children>
    <stylesheets>

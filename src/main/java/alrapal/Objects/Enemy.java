@@ -1,6 +1,6 @@
 package alrapal.Objects;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Enemy {
     ////////////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@ public class Enemy {
     private float airRes;
     private float percentageAirRes;
     private float damageMultiplier;
-    private ArrayList <ShieldAndEpic> shieldAndEpics;
+    private Map<String, ShieldAndEpic> shieldAndEpics;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////CONSTRUCTORS//////////////////////////////////
@@ -21,7 +21,7 @@ public class Enemy {
     {   this.airRes = 0;
         this.percentageAirRes = 0;
         this.damageMultiplier = 1;
-        this.shieldAndEpics = new ArrayList<>();}
+        this.shieldAndEpics = new HashMap<String, ShieldAndEpic>();}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////GETTERS & SETTERS/////////////////////////////
@@ -33,8 +33,8 @@ public class Enemy {
     public void setPercentageAirRes(float percentageAirRes) {this.percentageAirRes = percentageAirRes;}
     public float getDamageMultiplier(){return damageMultiplier;}
     public void setDamageMultiplier(float damageMultiplier){this.damageMultiplier = damageMultiplier;}
-    public ArrayList<ShieldAndEpic> getShieldAndEpics() {return shieldAndEpics;}
-    public void setShieldAndEpics(ArrayList<ShieldAndEpic> shieldAndEpics) {this.shieldAndEpics = shieldAndEpics; }
+    public Map<String, ShieldAndEpic> getShieldAndEpics() {return shieldAndEpics;}
+    public void setShieldAndEpics(Map<String, ShieldAndEpic> shieldAndEpics) {this.shieldAndEpics = shieldAndEpics; }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////METHODS///////////////////////////////////////
@@ -49,9 +49,12 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+        Iterator iterator = shieldAndEpics.values().iterator();
+        while (iterator.hasNext()){
+            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
             multiplier = multiplier * shieldAndEpic.calculateRangedMultiplierMin();
         }
+
         return multiplier;
     }
 
@@ -60,7 +63,9 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+        Iterator iterator = shieldAndEpics.values().iterator();
+        while(iterator.hasNext()){
+            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
             multiplier = multiplier * shieldAndEpic.calculateRangedMultiplierMax();
         }
         return multiplier;
@@ -71,7 +76,9 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+        Iterator iterator = shieldAndEpics.values().iterator();
+        while(iterator.hasNext()){
+            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
             multiplier = multiplier * shieldAndEpic.calculateMeleeMultiplierMin();
         }
         return multiplier;
@@ -82,15 +89,14 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        for (ShieldAndEpic shieldAndEpic : shieldAndEpics){
+        Iterator iterator = shieldAndEpics.values().iterator();
+        while(iterator.hasNext()){
+            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
             multiplier = multiplier * shieldAndEpic.calculateMeleeMultiplierMax();
         }
         return multiplier;
     }
 
-    public void addShieldOrEpic(ShieldAndEpic shieldAndEpic){
-        this.shieldAndEpics.add(shieldAndEpic);
-    }
 
 
 }
