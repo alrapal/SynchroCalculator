@@ -339,8 +339,12 @@ public class MainWindowController {
         float airRes = enemy.getAirRes();
         float percentageAirRes = enemy.getPercentageAirRes();
         float multiplier = enemy.getDamageMultiplier();
-        float totalDamage = (baseDamage - airRes) * (1-(percentageAirRes/100)) * multiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
-        int roundedTotalDamage = Math.round(totalDamage);
+        double domMinusRes = (baseDamage-airRes)*(1-(percentageAirRes/100));
+        double floorDomMinusRes = Math.floor(domMinusRes);
+        double floorMultiplier = Math.floor(floorDomMinusRes * multiplier);
+        double floorTotal = floorMultiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
+        double doubleRoundedTotalDamage = Math.floor(floorTotal);
+        int roundedTotalDamage = (int) doubleRoundedTotalDamage;
         if (roundedTotalDamage < 0){
             return 0;
         }else{
