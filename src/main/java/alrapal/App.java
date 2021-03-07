@@ -29,7 +29,7 @@ public class App extends Application {
 
         mainWindow.setTitle("Synchro Calculator");
         scene = new Scene(loadFXML("mainWindow"));
-        //setIcon(mainWindow);
+        setIcon(mainWindow);
         mainWindow.setScene(scene);
         ImportItems.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
         mainWindow.show();
