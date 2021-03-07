@@ -48,7 +48,6 @@
 #labelLvl3{
     -fx-text-fill: white;
 }
-
 #boostPicture{
     -fx-image: url('Images/Synchro.png');
 }
@@ -244,8 +243,15 @@
 }
 #damageMultiplierOutput{
     -fx-background-color: transparent;
+}
+#damageMultiplierOutput .list-cell{
+    -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: Arial;
+}
+#damageMultiplierOutput .list-cell:selected{
+    -fx-background-color: black;
+    -fx-opacity: 0.8;
 }
 #SynchroLabel{
     -fx-font-family: Arial;
@@ -255,10 +261,17 @@
 #SynchroBackground{
     -fx-opacity: 0.8;
 }
-#shieldMultiplierOutput{
+#shieldMultiplierOutput .list-cell{
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: Arial;
+}
+#shieldMultiplierOutput .list-cell:selected{
+    -fx-background-color: black;
+    -fx-opacity: 0.8;
+}
+#shieldMultiplierOutput{
+    -fx-background-color: transparent;
 }
 #shieldMultiplierBackground{
     -fx-opacity: 0.8;
@@ -272,17 +285,46 @@
     -fx-font-family: Arial;
 }
 #rangedDamagePicture{
-
+    -fx-image: url('Images/rangedPicture.png');
+    -fx-opacity: 1;
 }
 #meleeDamagePicture{
-
+    -fx-image: url('Images/meleePicture.png');
+    -fx-opacity: 1;
 }
 #meleeDamages{
     -fx-font-family: Arial;
     -fx-font-size: 14pt;
     -fx-text-fill: white;
 }
-
+#addMultiplier{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmall.png');
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+#addMultiplier:armed{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmallSelected.png');
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+#removeMultiplier{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmall.png');
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+#removeMultiplier:armed{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/ButtonSmallSelected.png');
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
 #rangedDamages{
     -fx-font-family: Arial;
     -fx-font-size: 14pt;
@@ -315,4 +357,12 @@
     -fx-text-fill: white;
     -fx-font-size: 14;
     -fx-font-weight: bold;
+}
+#resetSynchro{
+    -fx-background-color: transparent;
+    -fx-background-image: url('Images/Button.png');
+    -fx-text-fill: white;
+}
+#resetSynchro:armed{
+    -fx-background-image: url('Images/ButtonSelected.png');
 }

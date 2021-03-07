@@ -75,5 +75,254 @@
     "rangedMultiplierMin" : -5,
     "meleeMultiplierMax" : 0,
     "rangedMultiplierMax" : -6
+  },
+  {
+    "name" : "Bouclier Abraknyde",
+    "meleeMultiplierMin" : 3,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 3,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Bouclier Fi'Squale",
+    "meleeMultiplierMin" : 3,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 3,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Kloume",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : 3,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : 3
+  },
+  {
+    "name" : "Bouclier Akwadala",
+    "meleeMultiplierMin" : 5,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 5,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Coupe de Dragokart",
+    "meleeMultiplierMin" : 7,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 7,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Le Karde Coeur",
+    "meleeMultiplierMin" : 7,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 7,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Bouclier d'Asse",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : 8,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : 8
+  },
+  {
+    "name" : "Bouclier Ventaille",
+    "meleeMultiplierMin" : -7,
+    "rangedMultiplierMin" : 10,
+    "meleeMultiplierMax" : -10,
+    "rangedMultiplierMax" : 10
+  },
+  {
+    "name" : "Bouclier du Mont Kipou",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -7,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -10
+  },
+  {
+    "name" : "Cadran de Feu",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -9,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -12
+  },
+  {
+    "name" : "Roncier",
+    "meleeMultiplierMin" : -10,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -13,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "La Rondelle",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : 13,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : 13
+  },
+  {
+    "name" : "Bouclier du serrurier",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -10,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -13
+  },
+  {
+    "name" : "Bouclier à hélice",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -10,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -13
+  },
+  {
+    "name" : "Carapar",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -14,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Sept ans de malheur",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -14,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Détourné",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 14,
+    "meleeMultiplierMax" : -14,
+    "rangedMultiplierMax" : 14
+  },
+  {
+    "name" : "Écorce de Brouce",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -14,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Bouclier du Captain Amakna",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : 15,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : 15
+  },
+  {
+    "name" : "Bouclier précieux",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -14,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Ambrouclier",
+    "meleeMultiplierMin" : 15,
+    "rangedMultiplierMin" : -11,
+    "meleeMultiplierMax" : 15,
+    "rangedMultiplierMax" : -15
+  },
+  {
+    "name" : "Bouclier d'Anerice",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -15,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Goulclier",
+    "meleeMultiplierMin" : 15,
+    "rangedMultiplierMin" : -11,
+    "meleeMultiplierMax" : 15,
+    "rangedMultiplierMax" : -15
+  },
+  {
+    "name" : "Bouclier Bontarien",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -11,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -15
+  },
+  {
+    "name" : "Bouclier Brâkmarien",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 15,
+    "meleeMultiplierMax" : -15,
+    "rangedMultiplierMax" : 15
+  },
+  {
+    "name" : "Bouclier de Solar",
+    "meleeMultiplierMin" : -11,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -15,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Droiture de Fallanster",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -10,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -10
+  },
+  {
+    "name" : "Trompe-la-Mort",
+    "meleeMultiplierMin" : -7,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -10,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Bouclier des Chocomanciens",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -11,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -15
+  },
+  {
+    "name" : "Forteresse de Guerre",
+    "meleeMultiplierMin" : 15,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 15,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Étreinte de Servitude",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : -7,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : -10
+  },
+  {
+    "name" : "Pestilence de Corruption",
+    "meleeMultiplierMin" : -10,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -10,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Cape de Jahash Jurgen",
+    "meleeMultiplierMin" : 10,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : 10,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Ceinture de Dame Jhessica",
+    "meleeMultiplierMin" : -7,
+    "rangedMultiplierMin" : 0,
+    "meleeMultiplierMax" : -10,
+    "rangedMultiplierMax" : 0
+  },
+  {
+    "name" : "Crocobur",
+    "meleeMultiplierMin" : 0,
+    "rangedMultiplierMin" : 10,
+    "meleeMultiplierMax" : 0,
+    "rangedMultiplierMax" : 10
   }
+
+
+
+
 ]

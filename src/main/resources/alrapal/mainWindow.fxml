@@ -20,7 +20,7 @@
             <ImageView fx:id="resPerPicture" fitHeight="15.0" fitWidth="15.0" layoutX="140.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="labelResAir" contentDisplay="CENTER" layoutX="6.0" layoutY="38.0" prefHeight="27.0" prefWidth="125.0" text="Résistances air fixes" />
             <Label fx:id="labelResPercentageAir" contentDisplay="CENTER" layoutX="6.0" layoutY="77.0" prefHeight="27.0" prefWidth="125.0" text="Résistances air %" />
-            <Label fx:id="enemyInfos" alignment="CENTER" contentDisplay="CENTER" layoutX="19.0" prefHeight="47.0" prefWidth="196.0" text="Adversaire" wrapText="true">
+            <Label fx:id="enemyInfos" contentDisplay="CENTER" layoutX="7.0" prefHeight="47.0" prefWidth="102.0" text="Adversaire" wrapText="true">
                <font>
                   <Font size="19.0" />
                </font>
@@ -29,14 +29,14 @@
             <Label fx:id="damageMultiplierLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="136.0" prefHeight="17.0" prefWidth="115.0" text="Dommages subits :" />
             <TextField fx:id="damageMultiplierNameInput" layoutX="4.0" layoutY="158.0" prefHeight="27.0" prefWidth="69.0" promptText="Nom" />
             <TextField fx:id="damageMultiplierValueInput" layoutX="83.0" layoutY="158.0" prefHeight="27.0" prefWidth="69.0" promptText="Valeur" />
-            <Button fx:id="add" defaultButton="true" layoutX="160.0" layoutY="156.0" mnemonicParsing="false" onAction="#updateDamageMultiplier" prefHeight="30.0" prefWidth="30.0" text="+" />
-            <Label fx:id="damageMultiplierOutput" alignment="TOP_LEFT" layoutX="3.0" layoutY="189.0" prefHeight="49.0" prefWidth="226.0" />
-            <Button fx:id="removeMultiplier" defaultButton="true" layoutX="198.0" layoutY="156.0" mnemonicParsing="false" onAction="#updateDamageMultiplier" prefHeight="30.0" prefWidth="30.0" text="-" />
+            <Button fx:id="addMultiplier" layoutX="160.0" layoutY="156.0" mnemonicParsing="false" onAction="#updateDamageMultiplier" prefHeight="30.0" prefWidth="30.0" text="+" />
+            <Button fx:id="removeMultiplier" layoutX="198.0" layoutY="156.0" mnemonicParsing="false" onAction="#removeDamageMultiplier" prefHeight="30.0" prefWidth="30.0" text="-" />
+            <ListView fx:id="damageMultiplierOutput" layoutX="4.0" layoutY="189.0" prefHeight="55.0" prefWidth="225.0" />
          </children>
       </AnchorPane>
       <Rectangle fx:id="SynchroBackground" arcHeight="5.0" arcWidth="5.0" fill="#131239" height="125.0" layoutX="251.0" layoutY="10.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="219.0" />
       <RadioButton fx:id="keepOnTop" layoutX="10.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#keepOnTop" text="Garder au premier plan" />
-      <Label fx:id="SynchroLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="287.0" layoutY="10.0" prefHeight="47.0" prefWidth="147.0" text="Synchro" wrapText="true">
+      <Label fx:id="SynchroLabel" contentDisplay="CENTER" layoutX="256.0" layoutY="10.0" prefHeight="47.0" prefWidth="76.0" text="Synchro" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
@@ -195,9 +195,9 @@
          </padding>
       </GridPane>
       <Label fx:id="rightsLabel" layoutX="257.0" layoutY="478.0" text="Images propriété d'Ankama Games" />
-      <TextField fx:id="boost" alignment="CENTER" layoutX="409.0" layoutY="48.0" onAction="#handleBoostInput" prefHeight="27.0" prefWidth="54.0" text="0" />
-      <ImageView fx:id="boostPicture" fitHeight="27.0" fitWidth="26.0" layoutX="375.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="labelBoostSynchro" contentDisplay="CENTER" layoutX="256.0" layoutY="47.0" prefHeight="27.0" prefWidth="125.0" text="Boosts synchro (%)" />
+      <TextField fx:id="boost" alignment="CENTER" layoutX="409.0" layoutY="54.0" onAction="#handleBoostInput" prefHeight="27.0" prefWidth="54.0" text="0" />
+      <ImageView fx:id="boostPicture" fitHeight="27.0" fitWidth="26.0" layoutX="375.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="labelBoostSynchro" contentDisplay="CENTER" layoutX="256.0" layoutY="54.0" prefHeight="27.0" prefWidth="125.0" text="Boosts synchro (%)" />
       <RadioButton fx:id="synchroLvl1" layoutX="369.0" layoutY="87.0" mnemonicParsing="false" onAction="#synchroIsLvl1" prefHeight="20.0" prefWidth="20.0" textFill="WHITE">
          <toggleGroup>
             <ToggleGroup fx:id="selectLvl" />
@@ -216,17 +216,18 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="reset" cancelButton="true" layoutX="29.0" layoutY="296.0" mnemonicParsing="false" onAction="#resetAllValues" prefHeight="30.0" prefWidth="120.0" text="Reset total" />
+      <Button fx:id="reset" cancelButton="true" layoutX="29.0" layoutY="296.0" mnemonicParsing="false" onAction="#resetAllValues" prefHeight="30.0" prefWidth="120.0" text="Reset" />
       <Button fx:id="calculate" defaultButton="true" layoutX="29.0" layoutY="263.0" mnemonicParsing="false" onAction="#displayDamage" prefHeight="30.0" prefWidth="120.0" text="Calculer" />
-      <Label fx:id="rangedDamages" layoutX="317.0" layoutY="261.0" prefHeight="34.0" prefWidth="147.0" text="Distance" />
-      <Label fx:id="meleeDamages" layoutX="317.0" layoutY="294.0" prefHeight="34.0" prefWidth="147.0" text="Mêlée" />
-      <ImageView fx:id="rangedDamagePicture" fitHeight="15.0" fitWidth="15.0" layoutX="292.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="meleeDamagePicture" fitHeight="15.0" fitWidth="15.0" layoutX="292.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="rangedDamages" layoutX="317.0" layoutY="261.0" prefHeight="34.0" prefWidth="147.0" text="de 0 à 0" />
+      <Label fx:id="meleeDamages" layoutX="317.0" layoutY="294.0" prefHeight="34.0" prefWidth="147.0" text="de 0 à 0" />
+      <ImageView fx:id="rangedDamagePicture" fitHeight="25.0" fitWidth="25.0" layoutX="284.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="meleeDamagePicture" fitHeight="25.0" fitWidth="25.0" layoutX="285.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="shieldLabel" alignment="CENTER" layoutX="246.0" layoutY="146.0" prefHeight="17.0" prefWidth="202.0" text="Boucliers et items légendaires :" />
       <CustomTextField fx:id="shieldAndEpicInput" layoutX="257.0" layoutY="167.0" prefHeight="26.0" prefWidth="134.0" promptText="Chercher un item" />
       <Button fx:id="addShield" defaultButton="true" layoutX="396.0" layoutY="165.0" mnemonicParsing="false" onAction="#addShieldMultiplier" prefHeight="30.0" prefWidth="30.0" text="+" />
-      <Label fx:id="shieldMultiplierOutput" alignment="TOP_LEFT" layoutX="258.0" layoutY="199.0" prefHeight="49.0" prefWidth="202.0" />
-      <Button fx:id="removeShield" defaultButton="true" layoutX="433.0" layoutY="165.0" mnemonicParsing="false" onAction="#removeShieldMultiplier" prefHeight="30.0" prefWidth="30.0" text="-" />
+      <Button fx:id="removeShield" layoutX="433.0" layoutY="165.0" mnemonicParsing="false" onAction="#removeShieldMultiplier" prefHeight="30.0" prefWidth="30.0" text="-" />
+      <ListView fx:id="shieldMultiplierOutput" layoutX="254.0" layoutY="199.0" prefHeight="55.0" prefWidth="210.0" />
+      <Button fx:id="resetSynchro" cancelButton="true" layoutX="343.0" layoutY="19.0" mnemonicParsing="false" onAction="#newSynchro" prefHeight="30.0" prefWidth="120.0" text="Nouvelle Synchro" />
 
    </children>
    <stylesheets>

@@ -2,6 +2,8 @@ package alrapal;
 import alrapal.Objects.*;
 import alrapal.Exceptions.InvalidBoostException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -11,7 +13,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 
 public class MainWindowController {
@@ -24,31 +26,12 @@ public class MainWindowController {
     private Enemy enemy = new Enemy();
     public static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
     public static ArrayList <String> suggestions = new ArrayList<>();
-
-
+    private static ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
+    private static ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
     public void initialize(){
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////GETTERS AND SETTERS///////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public Map<String, ShieldAndEpic> getAllShieldsAndEpics() {
-        return allShieldsAndEpics;
-    }
-
-    public void setAllShieldsAndEpics(Map<String, ShieldAndEpic> allShieldsAndEpics) {
-        this.allShieldsAndEpics = allShieldsAndEpics;
-    }
-
-    public ArrayList<String> getSuggestions() {
-        return suggestions;
-    }
-
-    public void setSuggestions(ArrayList<String> suggestions) {
-        this.suggestions = suggestions;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////JAVAFX ELEMENTS///////////////////////////////
@@ -69,10 +52,10 @@ public class MainWindowController {
     public RadioButton synchroLvl3;
     public TextField damageMultiplierNameInput;
     public TextField damageMultiplierValueInput;
-    public Label damageMultiplierOutput;
+    public ListView damageMultiplierOutput;
     public CustomTextField shieldAndEpicInput;
     public Button addShield;
-    public Label shieldMultiplierOutput;
+    public ListView shieldMultiplierOutput;
 
 
 
@@ -110,18 +93,34 @@ public class MainWindowController {
         String name = damageMultiplierNameInput.getText();
         String valueStr = damageMultiplierValueInput.getText();
         try {
-            float newMultiplicator = Float.valueOf(valueStr)/100;
-            enemy.addMultiplier(newMultiplicator);
-            updateMultiplicatorOutput(name, valueStr);
+            float newMultiplier = Float.valueOf(valueStr)/100;
+            enemy.addMultiplier(newMultiplier);
+            updateMultiplierOutput(name, valueStr);
+            damageMultiplierNameInput.setText("");
+            damageMultiplierValueInput.setText("");
         }catch (NumberFormatException numberFormatException){
             infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
         }
     }
 
-    private void updateMultiplicatorOutput(String name, String value){
-        String currentMultiplicators = damageMultiplierOutput.getText();
-        String newMultiplicator = name + " - " + value +"%" + EOL;
-        damageMultiplierOutput.setText(currentMultiplicators + newMultiplicator);
+    private void updateMultiplierOutput(String name, String value){
+
+        String newMultiplier = name + " <> " + value +"%";
+        registeredMultiplier.add(newMultiplier);
+        damageMultiplierOutput.setItems(registeredMultiplier);
+    }
+
+    public void removeDamageMultiplier(ActionEvent actionEvent) {
+        String multiplierToRemove = (String) damageMultiplierOutput.getSelectionModel().getSelectedItem();
+        float reversedMultiplier = retrieveMultiplier(multiplierToRemove);
+        enemy.addMultiplier(reversedMultiplier);
+        registeredMultiplier.remove(multiplierToRemove);
+    }
+
+    private float retrieveMultiplier(String multiplierExpression){
+        String multiplier = multiplierExpression.replaceAll("[^0-9]", "");
+        float floatMultiplier = 1/(Float.parseFloat(multiplier)/100);
+        return floatMultiplier;
     }
 
     public void handleResFixInput(ActionEvent actionEvent) {
@@ -190,8 +189,8 @@ public class MainWindowController {
     }
 
     public void resetDamages(){
-        rangedDamages.setText("De 0 à 0");
-        meleeDamages.setText("De 0 à 0");
+        rangedDamages.setText("de 0 à 0");
+        meleeDamages.setText("de 0 à 0");
     }
 
     public void resetEnemyResistances(){
@@ -200,14 +199,15 @@ public class MainWindowController {
     }
 
     public void resetMultipliers(){
-        damageMultiplierOutput.setText("");
+        registeredMultiplier.removeAll(registeredMultiplier);
         damageMultiplierNameInput.setText("");
         damageMultiplierValueInput.setText("");
         enemy.setDamageMultiplier(1);
     }
 
     public void resetShieldsAndEpics(){
-        shieldMultiplierOutput.setText("");
+
+        registeredShieldsAndEpics.removeAll(registeredShieldsAndEpics);
         shieldAndEpicInput.setText("");
         enemy.setShieldAndEpics(new HashMap<String, ShieldAndEpic>());
     }
@@ -296,17 +296,17 @@ public class MainWindowController {
 
         private void displayRangedDamages(int rangedDamageMin, int rangedDamageMax){
         if (rangedDamageMin < rangedDamageMax){
-            rangedDamages.setText("De " + rangedDamageMin + " à " + rangedDamageMax);
+            rangedDamages.setText("de " + rangedDamageMin + " à " + rangedDamageMax);
         }else {
-            rangedDamages.setText("De " + rangedDamageMax + " à " + rangedDamageMin);
+            rangedDamages.setText("de " + rangedDamageMax + " à " + rangedDamageMin);
         }
         }
 
     private void displayMeleeDamages(int meleeDamageMin, int meleeDamageMax){
         if (meleeDamageMin < meleeDamageMax){
-            meleeDamages.setText("De " + meleeDamageMin + " à " + meleeDamageMax);
+            meleeDamages.setText("de " + meleeDamageMin + " à " + meleeDamageMax);
         }else {
-            meleeDamages.setText("De " + meleeDamageMax + " à " + meleeDamageMin);
+            meleeDamages.setText("de " + meleeDamageMax + " à " + meleeDamageMin);
         }
     }
 
@@ -346,7 +346,10 @@ public class MainWindowController {
     }
 
     public void addShieldMultiplier(ActionEvent actionEvent) {
-
+        if (shieldAndEpicInput.getText().isBlank()){
+            infoLabel.setText("Tapez le nom d'un item à ajouter");
+            return;
+        }
         String choice = shieldAndEpicInput.getText();
         if (!allShieldsAndEpics.containsKey(choice)){
             infoLabel.setText("L'objet n'existe pas.");
@@ -357,40 +360,24 @@ public class MainWindowController {
             infoLabel.setText("L'item '" + choice + "' est déjà pris en compte.");
         } else {
             enemy.getShieldAndEpics().put(addedShieldOrEpic.getName(), addedShieldOrEpic);
-            String currentShieldsOrEpics = shieldMultiplierOutput.getText();
-            shieldMultiplierOutput.setText(currentShieldsOrEpics + addedShieldOrEpic.getName() + EOL);
+            registeredShieldsAndEpics.add(addedShieldOrEpic.getName());
+            shieldMultiplierOutput.setItems(registeredShieldsAndEpics);
         }
         shieldAndEpicInput.setText("");
     }
 
     public void removeShieldMultiplier(ActionEvent actionEvent) {
-        String choice = shieldAndEpicInput.getText();
-        if (!allShieldsAndEpics.containsKey(choice)){
-            infoLabel.setText("L'objet n'existe pas.");
-            return;
-        }
-
-        //TODO: remove object from enemy
-        if (!enemy.getShieldAndEpics().containsKey(choice)) {
-            infoLabel.setText("L'item '" + choice + "' n'a pas été ajouté précedemment.");
-        } else {
-
-            enemy.getShieldAndEpics().remove(choice);
-            String currentShieldsOrEpics = "";
-            Iterator iterator = enemy.getShieldAndEpics().values().iterator();
-            while (iterator.hasNext()){
-                ShieldAndEpic currentShieldOrEpic = (ShieldAndEpic) iterator.next();
-                String shieldOrEpicName = currentShieldOrEpic.getName();
-                currentShieldsOrEpics += shieldOrEpicName + EOL;
-            }
-            shieldMultiplierOutput.setText(currentShieldsOrEpics);
-        }
+        String itemsNameToRemove = (String) shieldMultiplierOutput.getSelectionModel().getSelectedItem();
+        registeredShieldsAndEpics.remove(itemsNameToRemove);
+        enemy.getShieldAndEpics().remove(itemsNameToRemove);
         shieldAndEpicInput.setText("");
+    }
+
+    public void newSynchro(ActionEvent actionEvent) {
+        resetSynchro();
     }
 }
 
 //TODO: check for the formula if it is working
-//TODO: layout + buttons + reset per category or remove
 //TODO: write all items as JSON
 //TODO: export setting choice (lvl of synchro)
-//TODO: gerer la touche entrée sur les boutons

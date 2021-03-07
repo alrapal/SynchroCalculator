@@ -1,18 +1,16 @@
 package alrapal;
 
-import alrapal.Import.ImportJson;
-import alrapal.Objects.ShieldAndEpic;
+import alrapal.ImportExport.ImportItems;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * JavaFX App
@@ -23,7 +21,7 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        ImportJson.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
+        ImportItems.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
     }
 
     @Override
@@ -33,9 +31,9 @@ public class App extends Application {
         scene = new Scene(loadFXML("mainWindow"));
         //setIcon(mainWindow);
         mainWindow.setScene(scene);
-        ImportJson.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
+        ImportItems.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
         mainWindow.show();
-
+        mainWindow.setResizable(false);
     }
 
     static void setRoot(String fxml) throws IOException {

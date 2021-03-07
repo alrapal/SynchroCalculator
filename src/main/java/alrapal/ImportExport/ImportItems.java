@@ -1,6 +1,5 @@
-package alrapal.Import;
+package alrapal.ImportExport;
 
-import alrapal.MainWindowController;
 import alrapal.Objects.ShieldAndEpic;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class ImportJson {
+public class ImportItems {
     public static void importItems(Map<String, ShieldAndEpic> allShieldsAndEpics, ArrayList suggestions){
         JSONParser jsonParser = new JSONParser();
         try(FileReader fileReader = new FileReader("src/main/resources/alrapal/shieldsAndEpics.json")) {
