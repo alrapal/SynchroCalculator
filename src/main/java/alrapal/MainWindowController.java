@@ -1,7 +1,9 @@
 package alrapal;
-import alrapal.Objects.*;
-import alrapal.Exceptions.InvalidBoostException;
 
+import alrapal.Exceptions.InvalidBoostException;
+import alrapal.Objects.Enemy;
+import alrapal.Objects.ShieldAndEpic;
+import alrapal.Objects.Synchro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,8 +14,9 @@ import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainWindowController {
