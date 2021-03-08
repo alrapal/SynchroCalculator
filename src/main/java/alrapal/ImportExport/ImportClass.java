@@ -4,18 +4,17 @@ import alrapal.Objects.ShieldAndEpic;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 
 
 public class ImportClass {
-    public static void importItems(Map<String, ShieldAndEpic> allShieldsAndEpics, ArrayList suggestions){
+    public void importItems(Map<String, ShieldAndEpic> allShieldsAndEpics, ArrayList suggestions){
 
-        try(FileReader fileReader = new FileReader("src/main/resources/alrapal/shieldsAndEpics.json")) {
-            JsonArray itemToImport = (JsonArray) JsonParser.parseReader(fileReader);
+        try(InputStream fileReader = this.getClass().getClassLoader().getResourceAsStream("database.json"); InputStreamReader reader = new InputStreamReader(fileReader)){
+            JsonArray itemToImport = (JsonArray) JsonParser.parseReader(reader);
             for (int i = 0; i < itemToImport.size(); i++){
                 JsonObject currentImportedItem = (JsonObject) itemToImport.get(i);
                 ShieldAndEpic importedShieldOrEpic = parseToJava(currentImportedItem);

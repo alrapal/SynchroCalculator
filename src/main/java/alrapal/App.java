@@ -19,7 +19,8 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        ImportClass.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
+        ImportClass importClass = new ImportClass();
+        importClass.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
     }
 
     @Override
