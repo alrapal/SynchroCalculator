@@ -1,8 +1,8 @@
 [
   {
     "name" : "Bouclier du Craqueleur",
-    "meleeMultiplierMin" : -3,
-    "rangedMultiplierMin" : 2,
+    "meleeMultiplierMin" : -2,
+    "rangedMultiplierMin" : 3,
     "meleeMultiplierMax" : -3,
     "rangedMultiplierMax" : 3
   },

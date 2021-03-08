@@ -4,8 +4,8 @@ module alrapa {
     requires javafx.fxml;
     requires javafx.graphics;
     requires org.controlsfx.controls;
-    requires json.simple;
     requires javafx.base;
+    requires com.google.gson;
     exports alrapal;
 
 }

@@ -1,6 +1,6 @@
 package alrapal;
 
-import alrapal.ImportExport.ImportItems;
+import alrapal.ImportExport.ImportClass;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +19,7 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        ImportItems.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
+        ImportClass.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
     }
 
     @Override
@@ -29,7 +29,6 @@ public class App extends Application {
         scene = new Scene(loadFXML("mainWindow"));
         setIcon(mainWindow);
         mainWindow.setScene(scene);
-        ImportItems.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
         mainWindow.show();
         mainWindow.setResizable(false);
     }
