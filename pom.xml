@@ -57,11 +57,29 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.5</version>
                 <configuration>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <launcher>SynchroLauncher</launcher>
+                    <jlinkImageName>SynchroCalculator</jlinkImageName>
+                    <jlinkZipName>SynchroCalculator</jlinkZipName>
                     <mainClass>alrapal.App</mainClass>
                     <options>
                         <option>--add-exports</option>
                         <option>javafx.base/com.sun.javafx.event=org.controlsfx.controls</option>
                     </options>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>alrapal.App</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

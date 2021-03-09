@@ -190,6 +190,7 @@ public class MainWindowController {
         synchroLvl3.setSelected(true);
         boost.setText("0");
         resetSpellButtons();
+        resetDamages();
     }
 
     public void resetDamages(){
