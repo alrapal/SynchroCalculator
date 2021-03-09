@@ -70,17 +70,17 @@
 }
 #teleportationButton{
     -fx-background-color: transparent;
-    -fx-graphic: url('Images/téléportation.png');
+    -fx-graphic: url('Images/teleportation.png');
 }
 #teleportationButton:selected{
-    -fx-graphic: url('Images/téléportationSelected.png');
+    -fx-graphic: url('Images/teleportationSelected.png');
 }
 #RSbutton{
     -fx-background-color: transparent;
-    -fx-graphic: url('Images/retourSpontané.png');
+    -fx-graphic: url('Images/retourSpontane.png');
 }
 #RSbutton:selected{
-    -fx-graphic: url('Images/retourSpontanéSelected.png');
+    -fx-graphic: url('Images/retourSpontaneSelected.png');
 }
 #frappeButton{
     -fx-background-color: transparent;
@@ -147,10 +147,10 @@
 }
 #instabiliteButton{
     -fx-background-color: transparent;
-    -fx-graphic: url('Images/instabilité.png');
+    -fx-graphic: url('Images/instabilite.png');
 }
 #instabiliteButton:selected{
-    -fx-graphic: url('Images/instabilitéSelected.png');
+    -fx-graphic: url('Images/instabiliteSelected.png');
 }
 #remboButton{
     -fx-background-color: transparent;
@@ -175,17 +175,17 @@
 }
 #premoButton{
     -fx-background-color: transparent;
-    -fx-graphic: url('Images/prémonition.png');
+    -fx-graphic: url('Images/premonition.png');
 }
 #premoButton:selected{
-    -fx-graphic: url('Images/prémonitionSelected.png');
+    -fx-graphic: url('Images/premonitionSelected.png');
 }
 #poussiereButton{
     -fx-background-color: transparent;
-    -fx-graphic: url('Images/poussière.png');
+    -fx-graphic: url('Images/poussiere.png');
 }
 #poussiereButton:selected{
-    -fx-graphic: url('Images/poussièreSelected.png');
+    -fx-graphic: url('Images/poussiereSelected.png');
 }
 #souvenirButton{
     -fx-background-color: transparent;
@@ -203,10 +203,10 @@
 }
 #desychroButton{
     -fx-background-color: transparent;
-    -fx-graphic: url('Images/désynchronisation.png');
+    -fx-graphic: url('Images/desynchronisation.png');
 }
 #desychroButton:selected{
-    -fx-graphic: url('Images/désynchronisationSelected.png');
+    -fx-graphic: url('Images/desynchronisationSelected.png');
 }
 #infoLabel{
     -fx-text-fill: white;
