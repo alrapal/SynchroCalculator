@@ -15,10 +15,8 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    private static Scene scene;
-
     @Override
-    public void init() throws Exception {
+    public void init() {
         ImportClass importClass = new ImportClass();
         importClass.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
     }
@@ -27,15 +25,11 @@ public class App extends Application {
     public void start(Stage mainWindow) throws IOException {
 
         mainWindow.setTitle("Synchro Calculator");
-        scene = new Scene(loadFXML("mainWindow"));
+        Scene scene = new Scene(loadFXML("mainWindow"));
         setIcon(mainWindow);
         mainWindow.setScene(scene);
         mainWindow.show();
         mainWindow.setResizable(false);
-    }
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
