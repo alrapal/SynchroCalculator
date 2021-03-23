@@ -22,7 +22,7 @@ public class Enemy {
     {   this.airRes = 0;
         this.percentageAirRes = 0;
         this.damageMultiplier = 1;
-        this.shieldAndEpics = new HashMap<String, ShieldAndEpic>();}
+        this.shieldAndEpics = new HashMap<>();}
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////GETTERS & SETTERS/////////////////////////////
@@ -50,9 +50,7 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        Iterator iterator = shieldAndEpics.values().iterator();
-        while (iterator.hasNext()){
-            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics.values()) {
             multiplier = multiplier * shieldAndEpic.calculateRangedMultiplierMin();
         }
 
@@ -64,9 +62,7 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        Iterator iterator = shieldAndEpics.values().iterator();
-        while(iterator.hasNext()){
-            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics.values()) {
             multiplier = multiplier * shieldAndEpic.calculateRangedMultiplierMax();
         }
         return multiplier;
@@ -77,9 +73,7 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        Iterator iterator = shieldAndEpics.values().iterator();
-        while(iterator.hasNext()){
-            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics.values()) {
             multiplier = multiplier * shieldAndEpic.calculateMeleeMultiplierMin();
         }
         return multiplier;
@@ -90,9 +84,7 @@ public class Enemy {
             return 1;
         }
         float multiplier = 1;
-        Iterator iterator = shieldAndEpics.values().iterator();
-        while(iterator.hasNext()){
-            ShieldAndEpic shieldAndEpic = (ShieldAndEpic) iterator.next();
+        for (ShieldAndEpic shieldAndEpic : shieldAndEpics.values()) {
             multiplier = multiplier * shieldAndEpic.calculateMeleeMultiplierMax();
         }
         return multiplier;

@@ -37,9 +37,7 @@ public class Synchro {
     ////////////////////////////////////////////////////////////////////////////////////
 
     private boolean checkBoostCountFormat(float boost)
-    {  if (boost % 200 == 0)
-    {   return true;
-    }   else {
-        return false;}
+    {
+        return boost % 200 == 0;
     }
 }
