@@ -7,14 +7,12 @@ import alrapal.Objects.Synchro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +23,7 @@ public class MainWindowController {
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////ATTRIBUTES////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
+
     public static final String EOL = System.lineSeparator();
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
@@ -35,7 +34,6 @@ public class MainWindowController {
     public void initialize(){
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////JAVAFX ELEMENTS///////////////////////////////
@@ -61,10 +59,7 @@ public class MainWindowController {
     public Button addShield;
     public ListView shieldMultiplierOutput;
 
-
-
     //////////////////////////////////////SPELL BUTTONS ////////////////////////////////
-
 
     public ToggleButton teleportationButton;
     public ToggleButton RSbutton;
@@ -91,42 +86,6 @@ public class MainWindowController {
     //////////////////////////////////////DIRECT INPUTS/////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-
-
-    public void updateDamageMultiplier(ActionEvent actionEvent){
-        String name = damageMultiplierNameInput.getText();
-        String valueStr = damageMultiplierValueInput.getText();
-        try {
-            float newMultiplier = Float.valueOf(valueStr)/100;
-            enemy.addMultiplier(newMultiplier);
-            updateMultiplierOutput(name, valueStr);
-            damageMultiplierNameInput.setText("");
-            damageMultiplierValueInput.setText("");
-        }catch (NumberFormatException numberFormatException){
-            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
-        }
-    }
-
-    private void updateMultiplierOutput(String name, String value){
-
-        String newMultiplier = name + " <> " + value +"%";
-        registeredMultiplier.add(newMultiplier);
-        damageMultiplierOutput.setItems(registeredMultiplier);
-    }
-
-    public void removeDamageMultiplier(ActionEvent actionEvent) {
-        String multiplierToRemove = (String) damageMultiplierOutput.getSelectionModel().getSelectedItem();
-        float reversedMultiplier = retrieveMultiplier(multiplierToRemove);
-        enemy.addMultiplier(reversedMultiplier);
-        registeredMultiplier.remove(multiplierToRemove);
-    }
-
-    private float retrieveMultiplier(String multiplierExpression){
-        String multiplier = multiplierExpression.replaceAll("[^0-9]", "");
-        float floatMultiplier = 1/(Float.parseFloat(multiplier)/100);
-        return floatMultiplier;
-    }
-
     public void handleResFixInput(ActionEvent actionEvent) {
         resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
             resFixes.setText(newValue);
@@ -145,7 +104,6 @@ public class MainWindowController {
         });
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////INPUT BY SELECTION////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +121,49 @@ public class MainWindowController {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////CALCULATION///////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    public int calculateRangedDamagesMin() {
+        float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
+        return calculateDamages(rangedMultiplier);
+    }
+
+    public int calculateRangedDamagesMax() {
+        float rangedMultiplier = enemy.getTotalRangedMultiplierMax();
+        return calculateDamages(rangedMultiplier);
+    }
+
+    public int calculateMeleeDamagesMin(){
+        float meleeMultiplier = enemy.getTotalMeleeMultiplierMin();
+        return calculateDamages(meleeMultiplier);
+    }
+
+    public int calculateMeleeDamagesMax(){
+        float meleeMultiplier = enemy.getTotalMeleeMultiplierMax();
+        return calculateDamages(meleeMultiplier);
+    }
+
+    public int calculateDamages(float meleeOrRangeMultiplier){
+        float boost = synchro.getBoost();
+        float baseDamage = synchro.getBaseDamage();
+        float airRes = enemy.getAirRes();
+        float percentageAirRes = enemy.getPercentageAirRes();
+        float multiplier = enemy.getDamageMultiplier();
+        double domMinusRes = (baseDamage-airRes)*(1-(percentageAirRes/100));
+        double floorDomMinusRes = Math.floor(domMinusRes);
+        double floorMultiplier = Math.floor(floorDomMinusRes * multiplier);
+        double floorTotal = floorMultiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
+        double doubleRoundedTotalDamage = Math.floor(floorTotal);
+        int roundedTotalDamage = (int) doubleRoundedTotalDamage;
+        if (roundedTotalDamage < 0){
+            return 0;
+        }else{
+            return roundedTotalDamage;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////SETTINGS AND OPTIONS//////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
@@ -174,6 +175,10 @@ public class MainWindowController {
             stage.setAlwaysOnTop(false);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////RESET/////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
 
     public void resetAllValues(ActionEvent actionEvent) {
         infoLabel.setText("");
@@ -240,6 +245,44 @@ public class MainWindowController {
         renvoiButton.setSelected(false);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////UPDATE OBJECTS////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    public void updateDamageMultiplier(ActionEvent actionEvent){
+        String name = damageMultiplierNameInput.getText();
+        String valueStr = damageMultiplierValueInput.getText();
+        try {
+            float newMultiplier = Float.valueOf(valueStr)/100;
+            enemy.addMultiplier(newMultiplier);
+            updateMultiplierOutput(name, valueStr);
+            damageMultiplierNameInput.setText("");
+            damageMultiplierValueInput.setText("");
+        }catch (NumberFormatException numberFormatException){
+            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
+        }
+    }
+
+    private void updateMultiplierOutput(String name, String value){
+
+        String newMultiplier = name + " <> " + value +"%";
+        registeredMultiplier.add(newMultiplier);
+        damageMultiplierOutput.setItems(registeredMultiplier);
+    }
+
+    public void removeDamageMultiplier(ActionEvent actionEvent) {
+        String multiplierToRemove = (String) damageMultiplierOutput.getSelectionModel().getSelectedItem();
+        float reversedMultiplier = retrieveMultiplier(multiplierToRemove);
+        enemy.addMultiplier(reversedMultiplier);
+        registeredMultiplier.remove(multiplierToRemove);
+    }
+
+    private float retrieveMultiplier(String multiplierExpression){
+        String multiplier = multiplierExpression.replaceAll("[^0-9]", "");
+        float floatMultiplier = 1/(Float.parseFloat(multiplier)/100);
+        return floatMultiplier;
+    }
+
     public void updateBoost(ActionEvent actionEvent) {
         int boostCount = 0;
         boostCount += checkSpell(teleportationButton);
@@ -279,81 +322,6 @@ public class MainWindowController {
         }
     }
 
-    public void displayDamage(ActionEvent actionEvent) {
-        infoLabel.setText("");
-        try {
-            synchro.setBoost(Integer.parseInt(boost.getText()));
-            enemy.setAirRes(Integer.parseInt(resFixes.getText()));
-            enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
-            int rangedDamagesMin = calculateRangedDamagesMin();
-            int rangedDamagesMax = calculateRangedDamagesMax();
-            int meleeDamagesMin = calculateMeleeDamagesMin();
-            int meleeDamagesMax = calculateMeleeDamagesMax();
-            displayRangedDamages(rangedDamagesMin, rangedDamagesMax);
-            displayMeleeDamages(meleeDamagesMin, meleeDamagesMax);
-        } catch (InvalidBoostException invalidBoostFormat) {
-            resetAllValues(actionEvent);
-            infoLabel.setText(invalidBoostFormat.getMessage());
-        }catch (Exception e){
-            infoLabel.setText("Format invalide. Merci de taper un nombre.");
-        }
-    }
-
-        private void displayRangedDamages(int rangedDamageMin, int rangedDamageMax){
-        if (rangedDamageMin < rangedDamageMax){
-            rangedDamages.setText("de " + rangedDamageMin + " à " + rangedDamageMax);
-        }else {
-            rangedDamages.setText("de " + rangedDamageMax + " à " + rangedDamageMin);
-        }
-        }
-
-    private void displayMeleeDamages(int meleeDamageMin, int meleeDamageMax){
-        if (meleeDamageMin < meleeDamageMax){
-            meleeDamages.setText("de " + meleeDamageMin + " à " + meleeDamageMax);
-        }else {
-            meleeDamages.setText("de " + meleeDamageMax + " à " + meleeDamageMin);
-        }
-    }
-
-    public int calculateRangedDamagesMin() {
-        float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
-        return calculateDamages(rangedMultiplier);
-    }
-
-    public int calculateRangedDamagesMax() {
-        float rangedMultiplier = enemy.getTotalRangedMultiplierMax();
-        return calculateDamages(rangedMultiplier);
-    }
-
-    public int calculateMeleeDamagesMin(){
-        float meleeMultiplier = enemy.getTotalMeleeMultiplierMin();
-        return calculateDamages(meleeMultiplier);
-    }
-
-    public int calculateMeleeDamagesMax(){
-        float meleeMultiplier = enemy.getTotalMeleeMultiplierMax();
-        return calculateDamages(meleeMultiplier);
-    }
-
-    public int calculateDamages(float meleeOrRangeMultiplier){
-        float boost = synchro.getBoost();
-        float baseDamage = synchro.getBaseDamage();
-        float airRes = enemy.getAirRes();
-        float percentageAirRes = enemy.getPercentageAirRes();
-        float multiplier = enemy.getDamageMultiplier();
-        double domMinusRes = (baseDamage-airRes)*(1-(percentageAirRes/100));
-        double floorDomMinusRes = Math.floor(domMinusRes);
-        double floorMultiplier = Math.floor(floorDomMinusRes * multiplier);
-        double floorTotal = floorMultiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
-        double doubleRoundedTotalDamage = Math.floor(floorTotal);
-        int roundedTotalDamage = (int) doubleRoundedTotalDamage;
-        if (roundedTotalDamage < 0){
-            return 0;
-        }else{
-            return roundedTotalDamage;
-        }
-    }
-
     public void addShieldMultiplier(ActionEvent actionEvent) {
         if (shieldAndEpicInput.getText().isBlank()){
             infoLabel.setText("Tapez le nom d'un item à ajouter");
@@ -385,8 +353,45 @@ public class MainWindowController {
     public void newSynchro(ActionEvent actionEvent) {
         resetSynchro();
     }
-}
 
-//TODO: check for the formula if it is working
-//TODO: write all items as JSON
-//TODO: export setting choice (lvl of synchro)
+////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////DISPLAY DAMAGE////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+    public void displayDamage(ActionEvent actionEvent) {
+        infoLabel.setText("");
+        try {
+            synchro.setBoost(Integer.parseInt(boost.getText()));
+            enemy.setAirRes(Integer.parseInt(resFixes.getText()));
+            enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
+            int rangedDamagesMin = calculateRangedDamagesMin();
+            int rangedDamagesMax = calculateRangedDamagesMax();
+            int meleeDamagesMin = calculateMeleeDamagesMin();
+            int meleeDamagesMax = calculateMeleeDamagesMax();
+            displayRangedDamages(rangedDamagesMin, rangedDamagesMax);
+            displayMeleeDamages(meleeDamagesMin, meleeDamagesMax);
+        } catch (InvalidBoostException invalidBoostFormat) {
+            resetAllValues(actionEvent);
+            infoLabel.setText(invalidBoostFormat.getMessage());
+        }catch (Exception e){
+            infoLabel.setText("Format invalide. Merci de taper un nombre.");
+        }
+    }
+
+    private void displayRangedDamages(int rangedDamageMin, int rangedDamageMax){
+        if (rangedDamageMin < rangedDamageMax){
+            rangedDamages.setText("de " + rangedDamageMin + " à " + rangedDamageMax);
+        }else {
+            rangedDamages.setText("de " + rangedDamageMax + " à " + rangedDamageMin);
+        }
+    }
+
+    private void displayMeleeDamages(int meleeDamageMin, int meleeDamageMax){
+        if (meleeDamageMin < meleeDamageMax){
+            meleeDamages.setText("de " + meleeDamageMin + " à " + meleeDamageMax);
+        }else {
+            meleeDamages.setText("de " + meleeDamageMax + " à " + meleeDamageMin);
+        }
+    }
+
+}
