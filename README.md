@@ -1,6 +1,6 @@
 # SynchroCalculator
 
-## Application:
+## Français:
 
     Version: 1.0
 
