@@ -15,4 +15,4 @@
             linkedIn: https://www.linkedin.com/in/alexandre-rancati-palmer/
     
     Langages:
-        Java et JavaFX
+        Java, JavaFX, FXML, CSS
