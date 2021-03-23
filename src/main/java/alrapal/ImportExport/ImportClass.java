@@ -21,8 +21,6 @@ public class ImportClass {
                 allShieldsAndEpics.put(importedShieldOrEpic.getName(), importedShieldOrEpic);
                 suggestions.add(importedShieldOrEpic.getName());
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,7 +32,6 @@ public class ImportClass {
         float meleeMultiplierMax = next.get("meleeMultiplierMax").getAsFloat();
         float rangedMultiplierMin = next.get("rangedMultiplierMin").getAsFloat();
         float rangedMultiplierMax = next.get("rangedMultiplierMax").getAsFloat();
-        ShieldAndEpic shieldAndEpic = new ShieldAndEpic(name, meleeMultiplierMin, meleeMultiplierMax, rangedMultiplierMin, rangedMultiplierMax);
-        return shieldAndEpic;
+        return new ShieldAndEpic(name, meleeMultiplierMin, meleeMultiplierMax, rangedMultiplierMin, rangedMultiplierMax);
     }
 }
