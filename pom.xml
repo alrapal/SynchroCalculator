@@ -8,6 +8,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
     </properties>
     <dependencies>
         <dependency>
@@ -51,6 +52,8 @@
                         <arg>--add-exports</arg>
                         <arg>javafx.base/com.sun.javafx.event=org.controlsfx.controls</arg>
                     </compilerArgs>
+                    <source>9</source>
+                    <target>9</target>
                 </configuration>
             </plugin>
             <plugin>
