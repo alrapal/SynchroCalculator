@@ -13,6 +13,4 @@
             mail: alexandre.rancatipalmer@gmail.com 
             twitter: @AlexRancatiPalm
             linkedIn: https://www.linkedin.com/in/alexandre-rancati-palmer/
-    
-    Langages:
-        Java, JavaFX, FXML, CSS
+ 
