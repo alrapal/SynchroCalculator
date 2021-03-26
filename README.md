@@ -1,6 +1,9 @@
 # SynchroCalculator
 
 ## Français:
+
+ [Licence](https://github.com/alrapal/SynchroCalculator/blob/master/LICENSE)
+
  [Wiki](https://github.com/alrapal/SynchroCalculator/wiki)
  
  [Tutoriel installation](https://github.com/alrapal/SynchroCalculator/wiki/Installation)
