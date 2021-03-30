@@ -192,7 +192,6 @@ public class MainWindowController {
 
     public void resetSynchro(){
         synchro = new Synchro();
-        synchroLvl3.setSelected(true);
         boost.setText("0");
         resetSpellButtons();
         resetDamages();
