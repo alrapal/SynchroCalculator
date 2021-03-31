@@ -113,7 +113,7 @@ public class MainWindowController {
     }
 
     public void synchroIsLvl2(ActionEvent actionEvent) {
-        synchro.setBaseDamage(288);
+        synchro.setBaseDamage(241);
     }
 
     public void synchroIsLvl1(ActionEvent actionEvent) {
