@@ -191,7 +191,9 @@ public class MainWindowController {
     }
 
     public void resetSynchro(){
+        float currentBase = synchro.getBaseDamage();
         synchro = new Synchro();
+        synchro.setBaseDamage(currentBase);
         boost.setText("0");
         resetSpellButtons();
         resetDamages();
