@@ -1,12 +1,16 @@
 package alrapal;
 
 import alrapal.Exceptions.InvalidBoostException;
+import alrapal.ImportExport.ImportClass;
 import alrapal.Objects.Enemy;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -31,8 +35,65 @@ public class MainWindowController {
     public static ArrayList <String> suggestions = new ArrayList<>();
     private static ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
     private static ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
+    private final String defaultValue = "0";
+
+
     public void initialize(){
+
+        //Import of shields and epics
+        ImportClass importClass = new ImportClass();
+        importClass.importItems(allShieldsAndEpics, suggestions);
+        //Binding suggestions and input for autocomplete
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
+
+        //Initialise listeners for all TextFields Inputs
+        baseDamageInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+               try {
+                   if (newValue.isBlank()){ synchro.setBaseDamage(368);}
+                   else{synchro.setBaseDamage(Float.parseFloat(newValue));}
+               }catch (NumberFormatException numberFormatException){
+                   infoLabel.setText("La base de dommage de la Synchro doit être un nombre.");
+               }
+            }
+        });
+
+        boost.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue.isBlank()){ synchro.setBoost(0);}else{
+                        synchro.setBoost(Float.parseFloat(newValue));}
+                } catch (InvalidBoostException e) {
+                    infoLabel.setText(e.getMessage());
+                } catch (NumberFormatException numberFormatException){infoLabel.setText("Le boost synchro doit être un nombre multiple de 200 (0,200,400,etc...)");}
+            }
+        });
+
+        resFixes.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue.isBlank()){
+                        enemy.setAirRes(0);
+                    }else{
+                        enemy.setAirRes(Float.parseFloat(newValue));}
+                }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances fixes air doivent être un nombre.");}
+            }
+        });
+
+        resPercentage.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue.isBlank()){
+                        enemy.setPercentageAirRes(0);
+                    }else{
+                        enemy.setPercentageAirRes(Float.parseFloat(newValue));}
+                }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances % doivent être sous la forme d'un nombre, sans le signe %");}
+            }
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -49,15 +110,15 @@ public class MainWindowController {
     public TextField resFixes;
     public RadioButton keepOnTop;
     public TextField resPercentage;
-    public RadioButton synchroLvl1;
-    public RadioButton synchroLvl2;
-    public RadioButton synchroLvl3;
     public TextField damageMultiplierNameInput;
     public TextField damageMultiplierValueInput;
     public ListView damageMultiplierOutput;
     public CustomTextField shieldAndEpicInput;
     public Button addShield;
     public ListView shieldMultiplierOutput;
+    @FXML
+    private TextField baseDamageInput;
+
 
     //////////////////////////////////////SPELL BUTTONS ////////////////////////////////
 
@@ -82,43 +143,6 @@ public class MainWindowController {
     public ToggleButton remboButton;
     public ToggleButton renvoiButton;
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////DIRECT INPUTS/////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void handleResFixInput(ActionEvent actionEvent) {
-        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
-            resFixes.setText(newValue);
-        });
-    }
-
-    public void handleResPercentageInput(ActionEvent actionEvent) {
-        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
-            resFixes.setText(newValue);
-        });
-    }
-
-    public void handleBoostInput(ActionEvent actionEvent) {
-        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
-            resFixes.setText(newValue);
-        });
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////INPUT BY SELECTION////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void synchroIsLvl3(ActionEvent actionEvent) {
-        synchro.setBaseDamage(368);
-    }
-
-    public void synchroIsLvl2(ActionEvent actionEvent) {
-        synchro.setBaseDamage(241);
-    }
-
-    public void synchroIsLvl1(ActionEvent actionEvent) {
-        synchro.setBaseDamage(152);
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////CALCULATION///////////////////////////////////
@@ -146,7 +170,8 @@ public class MainWindowController {
 
     public int calculateDamages(float meleeOrRangeMultiplier){
         float boost = synchro.getBoost();
-        float baseDamage = synchro.getBaseDamage();
+        //updateBaseDamage(baseDamageInput.getText());
+        float baseDamage = synchro.getBaseDamage(); 
         float airRes = enemy.getAirRes();
         float percentageAirRes = enemy.getPercentageAirRes();
         float multiplier = enemy.getDamageMultiplier();
@@ -260,7 +285,7 @@ public class MainWindowController {
             damageMultiplierNameInput.setText("");
             damageMultiplierValueInput.setText("");
         }catch (NumberFormatException numberFormatException){
-            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
+            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre, sans le signe %");
         }
     }
 
@@ -315,7 +340,7 @@ public class MainWindowController {
 
     }
 
-    public int checkSpell(ToggleButton spellButton){
+    private int checkSpell(ToggleButton spellButton){
         if (spellButton.isSelected()){
             return +1;
         }else{
@@ -361,22 +386,12 @@ public class MainWindowController {
 
     public void displayDamage(ActionEvent actionEvent) {
         infoLabel.setText("");
-        try {
-            synchro.setBoost(Integer.parseInt(boost.getText()));
-            enemy.setAirRes(Integer.parseInt(resFixes.getText()));
-            enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
             int rangedDamagesMin = calculateRangedDamagesMin();
             int rangedDamagesMax = calculateRangedDamagesMax();
             int meleeDamagesMin = calculateMeleeDamagesMin();
             int meleeDamagesMax = calculateMeleeDamagesMax();
             displayRangedDamages(rangedDamagesMin, rangedDamagesMax);
             displayMeleeDamages(meleeDamagesMin, meleeDamagesMax);
-        } catch (InvalidBoostException invalidBoostFormat) {
-            resetAllValues(actionEvent);
-            infoLabel.setText(invalidBoostFormat.getMessage());
-        }catch (Exception e){
-            infoLabel.setText("Format invalide. Merci de taper un nombre.");
-        }
     }
 
     private void displayRangedDamages(int rangedDamageMin, int rangedDamageMax){
@@ -394,5 +409,4 @@ public class MainWindowController {
             meleeDamages.setText("de " + meleeDamageMax + " à " + meleeDamageMin);
         }
     }
-
 }

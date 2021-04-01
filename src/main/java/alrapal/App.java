@@ -1,6 +1,5 @@
 package alrapal;
 
-import alrapal.ImportExport.ImportClass;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +13,6 @@ import java.io.IOException;
  */
 
 public class App extends Application {
-
-    @Override
-    public void init() {
-        ImportClass importClass = new ImportClass();
-        importClass.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
-    }
 
     @Override
     public void start(Stage mainWindow) throws IOException {

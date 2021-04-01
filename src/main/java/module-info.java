@@ -6,6 +6,7 @@ module alrapa {
     requires org.controlsfx.controls;
     requires javafx.base;
     requires com.google.gson;
+    opens alrapal;
     exports alrapal;
 
 }
