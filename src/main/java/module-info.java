@@ -8,5 +8,4 @@ module alrapa {
     requires com.google.gson;
     opens alrapal;
     exports alrapal;
-
 }

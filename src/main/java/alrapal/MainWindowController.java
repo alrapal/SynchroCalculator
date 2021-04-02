@@ -24,22 +24,26 @@ import java.util.Map;
 
 public class MainWindowController {
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////ATTRIBUTES////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public static final String EOL = System.lineSeparator();
+    /**Attributes**/
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
-    public static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
-    public static ArrayList <String> suggestions = new ArrayList<>();
-    private static ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
-    private static ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
-    private final String defaultValue = "0";
+    private final static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
+    private final static ArrayList <String> suggestions = new ArrayList<>();
+    private final ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
+    private final ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
+
+   /**Getters**/
+    public Synchro getSynchro() {return this.synchro;}
+    public Enemy getEnemy() {return this.enemy;}
+
+    /**Setters**/
+    public void setSynchro(Synchro synchro) {this.synchro = synchro;}
+    public void setEnemy(Enemy enemy) {this.enemy = enemy;}
 
 
+    /**Initializers**/
     public void initialize(){
-
+        //TODO : Import synchro base from a file (and delete the file ?)
         //Import of shields and epics
         ImportClass importClass = new ImportClass();
         importClass.importItems(allShieldsAndEpics, suggestions);
@@ -63,11 +67,12 @@ public class MainWindowController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
+                    infoLabel.setText("");
                     if (newValue.isBlank()){ synchro.setBoost(0);}else{
                         synchro.setBoost(Float.parseFloat(newValue));}
                 } catch (InvalidBoostException e) {
                     infoLabel.setText(e.getMessage());
-                } catch (NumberFormatException numberFormatException){infoLabel.setText("Le boost synchro doit être un nombre multiple de 200 (0,200,400,etc...)");}
+                } catch (NumberFormatException numberFormatException){infoLabel.setText("Le boost synchro doit être un NOMBRE multiple de 200 (0,200,400,etc...)");}
             }
         });
 
@@ -96,58 +101,83 @@ public class MainWindowController {
         });
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////JAVAFX ELEMENTS///////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public Button reset;
-    public Label rangedDamages;
-    public Label meleeDamages;
-    public Parent mainRoot;
-    public TextField boost;
-    public Label infoLabel;
-    public Button calculate;
-    public TextField resFixes;
-    public RadioButton keepOnTop;
-    public TextField resPercentage;
-    public TextField damageMultiplierNameInput;
-    public TextField damageMultiplierValueInput;
-    public ListView damageMultiplierOutput;
-    public CustomTextField shieldAndEpicInput;
-    public Button addShield;
-    public ListView shieldMultiplierOutput;
+    /**Javafx elements**/
+    @FXML
+    private Button reset;
+    @FXML
+    private Label rangedDamages;
+    @FXML
+    private Label meleeDamages;
+    @FXML
+    private Parent mainRoot;
+    @FXML
+    private TextField boost;
+    @FXML
+    private Label infoLabel;
+    @FXML
+    private Button calculate;
+    @FXML
+    private TextField resFixes;
+    @FXML
+    private RadioButton keepOnTop;
+    @FXML
+    private TextField resPercentage;
+    @FXML
+    private TextField damageMultiplierNameInput;
+    @FXML
+    private TextField damageMultiplierValueInput;
+    @FXML
+    private ListView damageMultiplierOutput;
+    @FXML
+    private CustomTextField shieldAndEpicInput;
+    @FXML
+    private Button addShield;
+    @FXML
+    private ListView shieldMultiplierOutput;
     @FXML
     private TextField baseDamageInput;
+    @FXML
+    private ToggleButton teleportationButton;
+    @FXML
+    private ToggleButton RSbutton;
+    @FXML
+    private ToggleButton frappeButton;
+    @FXML
+    private ToggleButton engrenageButton;
+    @FXML
+    private ToggleButton gelureButton;
+    @FXML
+    private ToggleButton perturbationButton;
+    @FXML
+    private ToggleButton poussiereButton;
+    @FXML
+    private ToggleButton souvenirButton;
+    @FXML
+    private ToggleButton paradoxeButton;
+    @FXML
+    private ToggleButton failleButton;
+    @FXML
+    private ToggleButton distortionButton;
+    @FXML
+    private ToggleButton penduleButton;
+    @FXML
+    private ToggleButton raulebackButton;
+    @FXML
+    private ToggleButton instabiliteButton;
+    @FXML
+    private ToggleButton bouclierButton;
+    @FXML
+    private ToggleButton desychroButton;
+    @FXML
+    private ToggleButton fuiteButton;
+    @FXML
+    private ToggleButton premoButton;
+    @FXML
+    private ToggleButton remboButton;
+    @FXML
+    private ToggleButton renvoiButton;
 
-
-    //////////////////////////////////////SPELL BUTTONS ////////////////////////////////
-
-    public ToggleButton teleportationButton;
-    public ToggleButton RSbutton;
-    public ToggleButton frappeButton;
-    public ToggleButton engrenageButton;
-    public ToggleButton gelureButton;
-    public ToggleButton perturbationButton;
-    public ToggleButton poussiereButton;
-    public ToggleButton souvenirButton;
-    public ToggleButton paradoxeButton;
-    public ToggleButton failleButton;
-    public ToggleButton distortionButton;
-    public ToggleButton penduleButton;
-    public ToggleButton raulebackButton;
-    public ToggleButton instabiliteButton;
-    public ToggleButton bouclierButton;
-    public ToggleButton desychroButton;
-    public ToggleButton fuiteButton;
-    public ToggleButton premoButton;
-    public ToggleButton remboButton;
-    public ToggleButton renvoiButton;
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////CALCULATION///////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    /**Calculation methods**/
     public int calculateRangedDamagesMin() {
         float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
         return calculateDamages(rangedMultiplier);
@@ -188,10 +218,7 @@ public class MainWindowController {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////SETTINGS AND OPTIONS//////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    /**Settings and options**/
     public void keepOnTop(MouseEvent mouseEvent) {
         Stage stage = (Stage) mainRoot.getScene().getWindow();
         if (keepOnTop.isSelected()){
@@ -201,10 +228,7 @@ public class MainWindowController {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////RESET/////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    /**Reset**/
     public void resetAllValues(ActionEvent actionEvent) {
         infoLabel.setText("");
         resetSynchro();
@@ -271,10 +295,9 @@ public class MainWindowController {
         renvoiButton.setSelected(false);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////UPDATE OBJECTS////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
 
+    /** Update values
+     * (inputs without buttons are updated in the initialize() through listeners) **/
     public void updateDamageMultiplier(ActionEvent actionEvent){
         String name = damageMultiplierNameInput.getText();
         String valueStr = damageMultiplierValueInput.getText();
@@ -334,10 +357,6 @@ public class MainWindowController {
         int totalBoost = boostCount*200;
         String strTotalBoost = String.valueOf(totalBoost);
         boost.setText(strTotalBoost);
-
-
-
-
     }
 
     private int checkSpell(ToggleButton spellButton){
@@ -383,7 +402,7 @@ public class MainWindowController {
 ////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////DISPLAY DAMAGE////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
-
+    /** Display damage methods **/
     public void displayDamage(ActionEvent actionEvent) {
         infoLabel.setText("");
             int rangedDamagesMin = calculateRangedDamagesMin();
