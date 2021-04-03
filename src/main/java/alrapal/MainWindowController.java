@@ -1,12 +1,16 @@
 package alrapal;
 
 import alrapal.Exceptions.InvalidBoostException;
+import alrapal.ImportExport.ImportExportClass;
 import alrapal.Objects.Enemy;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -20,110 +24,165 @@ import java.util.Map;
 
 public class MainWindowController {
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////ATTRIBUTES////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
 
-    public static final String EOL = System.lineSeparator();
+
+    /**Attributes**/
+    private ImportExportClass importExportClass = new ImportExportClass();
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
-    public static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
-    public static ArrayList <String> suggestions = new ArrayList<>();
-    private static ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
-    private static ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
+    private final static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
+    private final static ArrayList <String> suggestions = new ArrayList<>();
+    private final ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
+    private final ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
+
+   /**Getters**/
+    public Synchro getSynchro() {return this.synchro;}
+    public Enemy getEnemy() {return this.enemy;}
+    public ImportExportClass getImportExportClass(){return this.importExportClass;}
+
+    /**Setters**/
+    public void setSynchro(Synchro synchro) {this.synchro = synchro;}
+    public void setEnemy(Enemy enemy) {this.enemy = enemy;}
+    public void setImportExportClass(ImportExportClass importExportClass){this.importExportClass = importExportClass;}
+
+
+    /**Initializers**/
     public void initialize(){
+        //TODO : Import synchro base from a file (and delete the file ?)
+        importExportClass.importConfig(baseDamageInput, infoLabel);
+        //Import of shields and epics
+        importExportClass.importItems(allShieldsAndEpics, suggestions);
+        //Binding suggestions and input for autocomplete
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
-    }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////JAVAFX ELEMENTS///////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
+        //Initialise listeners for all TextFields Inputs
+        baseDamageInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+               try {
+                   if (newValue.isBlank()){ synchro.setBaseDamage(368);}
+                   else{synchro.setBaseDamage(Float.parseFloat(newValue));}
+               }catch (NumberFormatException numberFormatException){
+                   infoLabel.setText("La base de dommage de la Synchro doit être un nombre.");
+               }
+            }
+        });
 
-    public Button reset;
-    public Label rangedDamages;
-    public Label meleeDamages;
-    public Parent mainRoot;
-    public TextField boost;
-    public Label infoLabel;
-    public Button calculate;
-    public TextField resFixes;
-    public RadioButton keepOnTop;
-    public TextField resPercentage;
-    public RadioButton synchroLvl1;
-    public RadioButton synchroLvl2;
-    public RadioButton synchroLvl3;
-    public TextField damageMultiplierNameInput;
-    public TextField damageMultiplierValueInput;
-    public ListView damageMultiplierOutput;
-    public CustomTextField shieldAndEpicInput;
-    public Button addShield;
-    public ListView shieldMultiplierOutput;
+        boost.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    infoLabel.setText("");
+                    if (newValue.isBlank()){ synchro.setBoost(0);}else{
+                        synchro.setBoost(Float.parseFloat(newValue));}
+                } catch (InvalidBoostException e) {
+                    infoLabel.setText(e.getMessage());
+                } catch (NumberFormatException numberFormatException){infoLabel.setText("Le boost synchro doit être un NOMBRE multiple de 200 (0,200,400,etc...)");}
+            }
+        });
 
-    //////////////////////////////////////SPELL BUTTONS ////////////////////////////////
+        resFixes.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue.isBlank()){
+                        enemy.setAirRes(0);
+                    }else{
+                        enemy.setAirRes(Float.parseFloat(newValue));}
+                }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances fixes air doivent être un nombre.");}
+            }
+        });
 
-    public ToggleButton teleportationButton;
-    public ToggleButton RSbutton;
-    public ToggleButton frappeButton;
-    public ToggleButton engrenageButton;
-    public ToggleButton gelureButton;
-    public ToggleButton perturbationButton;
-    public ToggleButton poussiereButton;
-    public ToggleButton souvenirButton;
-    public ToggleButton paradoxeButton;
-    public ToggleButton failleButton;
-    public ToggleButton distortionButton;
-    public ToggleButton penduleButton;
-    public ToggleButton raulebackButton;
-    public ToggleButton instabiliteButton;
-    public ToggleButton bouclierButton;
-    public ToggleButton desychroButton;
-    public ToggleButton fuiteButton;
-    public ToggleButton premoButton;
-    public ToggleButton remboButton;
-    public ToggleButton renvoiButton;
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////DIRECT INPUTS/////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void handleResFixInput(ActionEvent actionEvent) {
-        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
-            resFixes.setText(newValue);
+        resPercentage.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (newValue.isBlank()){
+                        enemy.setPercentageAirRes(0);
+                    }else{
+                        enemy.setPercentageAirRes(Float.parseFloat(newValue));}
+                }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances % doivent être sous la forme d'un nombre, sans le signe %");}
+            }
         });
     }
 
-    public void handleResPercentageInput(ActionEvent actionEvent) {
-        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
-            resFixes.setText(newValue);
-        });
-    }
+    /**Javafx elements**/
+    @FXML
+    private Button reset;
+    @FXML
+    private Label rangedDamages;
+    @FXML
+    private Label meleeDamages;
+    @FXML
+    private Parent mainRoot;
+    @FXML
+    private TextField boost;
+    @FXML
+    private Label infoLabel;
+    @FXML
+    private Button calculate;
+    @FXML
+    private TextField resFixes;
+    @FXML
+    private RadioButton keepOnTop;
+    @FXML
+    private TextField resPercentage;
+    @FXML
+    private TextField damageMultiplierNameInput;
+    @FXML
+    private TextField damageMultiplierValueInput;
+    @FXML
+    private ListView damageMultiplierOutput;
+    @FXML
+    private CustomTextField shieldAndEpicInput;
+    @FXML
+    private Button addShield;
+    @FXML
+    private ListView shieldMultiplierOutput;
+    @FXML
+    private TextField baseDamageInput;
+    @FXML
+    private ToggleButton teleportationButton;
+    @FXML
+    private ToggleButton RSbutton;
+    @FXML
+    private ToggleButton frappeButton;
+    @FXML
+    private ToggleButton engrenageButton;
+    @FXML
+    private ToggleButton gelureButton;
+    @FXML
+    private ToggleButton perturbationButton;
+    @FXML
+    private ToggleButton poussiereButton;
+    @FXML
+    private ToggleButton souvenirButton;
+    @FXML
+    private ToggleButton paradoxeButton;
+    @FXML
+    private ToggleButton failleButton;
+    @FXML
+    private ToggleButton distortionButton;
+    @FXML
+    private ToggleButton penduleButton;
+    @FXML
+    private ToggleButton raulebackButton;
+    @FXML
+    private ToggleButton instabiliteButton;
+    @FXML
+    private ToggleButton bouclierButton;
+    @FXML
+    private ToggleButton desychroButton;
+    @FXML
+    private ToggleButton fuiteButton;
+    @FXML
+    private ToggleButton premoButton;
+    @FXML
+    private ToggleButton remboButton;
+    @FXML
+    private ToggleButton renvoiButton;
 
-    public void handleBoostInput(ActionEvent actionEvent) {
-        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
-            resFixes.setText(newValue);
-        });
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////INPUT BY SELECTION////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void synchroIsLvl3(ActionEvent actionEvent) {
-        synchro.setBaseDamage(368);
-    }
-
-    public void synchroIsLvl2(ActionEvent actionEvent) {
-        synchro.setBaseDamage(241);
-    }
-
-    public void synchroIsLvl1(ActionEvent actionEvent) {
-        synchro.setBaseDamage(152);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////CALCULATION///////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    /**Calculation methods**/
     public int calculateRangedDamagesMin() {
         float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
         return calculateDamages(rangedMultiplier);
@@ -146,7 +205,8 @@ public class MainWindowController {
 
     public int calculateDamages(float meleeOrRangeMultiplier){
         float boost = synchro.getBoost();
-        float baseDamage = synchro.getBaseDamage();
+        //updateBaseDamage(baseDamageInput.getText());
+        float baseDamage = synchro.getBaseDamage(); 
         float airRes = enemy.getAirRes();
         float percentageAirRes = enemy.getPercentageAirRes();
         float multiplier = enemy.getDamageMultiplier();
@@ -163,10 +223,7 @@ public class MainWindowController {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////SETTINGS AND OPTIONS//////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    /**Settings and options**/
     public void keepOnTop(MouseEvent mouseEvent) {
         Stage stage = (Stage) mainRoot.getScene().getWindow();
         if (keepOnTop.isSelected()){
@@ -176,10 +233,7 @@ public class MainWindowController {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////RESET/////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    /**Reset**/
     public void resetAllValues(ActionEvent actionEvent) {
         infoLabel.setText("");
         resetSynchro();
@@ -246,10 +300,9 @@ public class MainWindowController {
         renvoiButton.setSelected(false);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////UPDATE OBJECTS////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
 
+    /** Update values
+     * (inputs without buttons are updated in the initialize() through listeners) **/
     public void updateDamageMultiplier(ActionEvent actionEvent){
         String name = damageMultiplierNameInput.getText();
         String valueStr = damageMultiplierValueInput.getText();
@@ -260,7 +313,7 @@ public class MainWindowController {
             damageMultiplierNameInput.setText("");
             damageMultiplierValueInput.setText("");
         }catch (NumberFormatException numberFormatException){
-            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre");
+            infoLabel.setText("Format du multiplicateur incorrect. Entrez un nombre, sans le signe %");
         }
     }
 
@@ -309,13 +362,9 @@ public class MainWindowController {
         int totalBoost = boostCount*200;
         String strTotalBoost = String.valueOf(totalBoost);
         boost.setText(strTotalBoost);
-
-
-
-
     }
 
-    public int checkSpell(ToggleButton spellButton){
+    private int checkSpell(ToggleButton spellButton){
         if (spellButton.isSelected()){
             return +1;
         }else{
@@ -358,25 +407,15 @@ public class MainWindowController {
 ////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////DISPLAY DAMAGE////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
-
+    /** Display damage methods **/
     public void displayDamage(ActionEvent actionEvent) {
         infoLabel.setText("");
-        try {
-            synchro.setBoost(Integer.parseInt(boost.getText()));
-            enemy.setAirRes(Integer.parseInt(resFixes.getText()));
-            enemy.setPercentageAirRes(Integer.parseInt(resPercentage.getText()));
             int rangedDamagesMin = calculateRangedDamagesMin();
             int rangedDamagesMax = calculateRangedDamagesMax();
             int meleeDamagesMin = calculateMeleeDamagesMin();
             int meleeDamagesMax = calculateMeleeDamagesMax();
             displayRangedDamages(rangedDamagesMin, rangedDamagesMax);
             displayMeleeDamages(meleeDamagesMin, meleeDamagesMax);
-        } catch (InvalidBoostException invalidBoostFormat) {
-            resetAllValues(actionEvent);
-            infoLabel.setText(invalidBoostFormat.getMessage());
-        }catch (Exception e){
-            infoLabel.setText("Format invalide. Merci de taper un nombre.");
-        }
     }
 
     private void displayRangedDamages(int rangedDamageMin, int rangedDamageMax){
@@ -394,5 +433,4 @@ public class MainWindowController {
             meleeDamages.setText("de " + meleeDamageMax + " à " + meleeDamageMin);
         }
     }
-
 }

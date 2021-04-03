@@ -36,7 +36,7 @@
 #labelBoostSynchro{
     -fx-text-fill: white;
 }
-#labelLvl{
+#baseDamageLabel{
     -fx-text-fill: white;
 }
 #labelLvl1{
@@ -209,6 +209,7 @@
     -fx-graphic: url('Images/desynchronisationSelected.png');
 }
 #infoLabel{
+    -fx-font-family: Arial;
     -fx-text-fill: white;
 }
 #calculate{

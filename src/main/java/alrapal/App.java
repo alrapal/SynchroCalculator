@@ -1,7 +1,8 @@
 package alrapal;
 
-import alrapal.ImportExport.ImportClass;
+import alrapal.ImportExport.ImportExportClass;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,25 +17,23 @@ import java.io.IOException;
 public class App extends Application {
 
     @Override
-    public void init() {
-        ImportClass importClass = new ImportClass();
-        importClass.importItems(MainWindowController.allShieldsAndEpics, MainWindowController.suggestions);
-    }
-
-    @Override
     public void start(Stage mainWindow) throws IOException {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("mainWindow" + ".fxml"));
+        Parent root = fxmlLoader.load();
+        MainWindowController controller = fxmlLoader.getController();
         mainWindow.setTitle("Synchro Calculator");
-        Scene scene = new Scene(loadFXML("mainWindow"));
+        Scene scene = new Scene(root);
         setIcon(mainWindow);
         mainWindow.setScene(scene);
         mainWindow.show();
         mainWindow.setResizable(false);
-    }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+        mainWindow.setOnCloseRequest(event -> {
+            ImportExportClass export = controller.getImportExportClass();
+            float baseDamage = controller.getSynchro().getBaseDamage();
+            export.exportConfig(baseDamage);
+            Platform.exit();
+        });
     }
 
     private void setIcon(Stage primaryStage){
