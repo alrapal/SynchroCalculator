@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 public class ImportExportClass {
 
-    private final static String homeDir = System.getProperty("user.home");
     private final static String workingDir = System.getProperty("user.dir");
     private final static String fileSeparator = System.getProperty("file.separator");
     private final String filePathBaseSynchro = workingDir + fileSeparator + "SynchroCalculator_Base.txt";
@@ -46,7 +45,6 @@ public class ImportExportClass {
 
     public void exportConfig(float lastBaseDamage){
         try(FileWriter writer = new FileWriter(filePathBaseSynchro)) {
-            System.out.println(homeDir);
             writer.write(String.valueOf(lastBaseDamage));
         } catch (IOException e) {
             e.printStackTrace();
