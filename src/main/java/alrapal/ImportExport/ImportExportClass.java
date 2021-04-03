@@ -45,7 +45,8 @@ public class ImportExportClass {
 
     public void exportConfig(float lastBaseDamage){
         try(FileWriter writer = new FileWriter(filePathBaseSynchro)) {
-            writer.write(String.valueOf(lastBaseDamage));
+            int intValue = (int) lastBaseDamage;
+            writer.write(String.valueOf(intValue));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +57,7 @@ public class ImportExportClass {
         try(Scanner scanner = new Scanner(baseFile)) {
             String importedBase = scanner.nextLine();
             float importedBase_ = Float.parseFloat(importedBase);
-            if (importedBase_ == 368.0){
+            if (importedBase_ == 368){
                 infoLabel.setText("INFO: Utilisation de la base de dommage correspondant au niveau 200");
                 return;
             }else {
