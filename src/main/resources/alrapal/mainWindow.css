@@ -209,6 +209,7 @@
     -fx-graphic: url('Images/desynchronisationSelected.png');
 }
 #infoLabel{
+    -fx-font-family: Arial;
     -fx-text-fill: white;
 }
 #calculate{

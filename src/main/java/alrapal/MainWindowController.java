@@ -1,7 +1,7 @@
 package alrapal;
 
 import alrapal.Exceptions.InvalidBoostException;
-import alrapal.ImportExport.ImportClass;
+import alrapal.ImportExport.ImportExportClass;
 import alrapal.Objects.Enemy;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
@@ -24,7 +24,10 @@ import java.util.Map;
 
 public class MainWindowController {
 
+
+
     /**Attributes**/
+    private ImportExportClass importExportClass = new ImportExportClass();
     private Synchro synchro = new Synchro();
     private Enemy enemy = new Enemy();
     private final static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
@@ -35,18 +38,20 @@ public class MainWindowController {
    /**Getters**/
     public Synchro getSynchro() {return this.synchro;}
     public Enemy getEnemy() {return this.enemy;}
+    public ImportExportClass getImportExportClass(){return this.importExportClass;}
 
     /**Setters**/
     public void setSynchro(Synchro synchro) {this.synchro = synchro;}
     public void setEnemy(Enemy enemy) {this.enemy = enemy;}
+    public void setImportExportClass(ImportExportClass importExportClass){this.importExportClass = importExportClass;}
 
 
     /**Initializers**/
     public void initialize(){
         //TODO : Import synchro base from a file (and delete the file ?)
+        importExportClass.importConfig(baseDamageInput, infoLabel);
         //Import of shields and epics
-        ImportClass importClass = new ImportClass();
-        importClass.importItems(allShieldsAndEpics, suggestions);
+        importExportClass.importItems(allShieldsAndEpics, suggestions);
         //Binding suggestions and input for autocomplete
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
 
