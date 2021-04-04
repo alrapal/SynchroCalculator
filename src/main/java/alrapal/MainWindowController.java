@@ -3,6 +3,7 @@ package alrapal;
 import alrapal.Exceptions.InvalidBoostException;
 import alrapal.ImportExport.ImportExportClass;
 import alrapal.Objects.Enemy;
+import alrapal.Objects.Multiplier;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
 import javafx.beans.value.ChangeListener;
@@ -13,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
@@ -33,12 +35,16 @@ public class MainWindowController {
     private final static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
     private final static ArrayList <String> suggestions = new ArrayList<>();
     private final ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
-    private final ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
+    private final ObservableList <Multiplier> registeredMultiplier = FXCollections.observableArrayList();
+    private float importedBase;
+
+
 
    /**Getters**/
     public Synchro getSynchro() {return this.synchro;}
     public Enemy getEnemy() {return this.enemy;}
     public ImportExportClass getImportExportClass(){return this.importExportClass;}
+    public float getImportedBase(){return this.importedBase;}
 
     /**Setters**/
     public void setSynchro(Synchro synchro) {this.synchro = synchro;}
@@ -48,62 +54,62 @@ public class MainWindowController {
 
     /**Initializers**/
     public void initialize(){
-        //TODO : Import synchro base from a file (and delete the file ?)
-        importExportClass.importConfig(baseDamageInput, infoLabel);
-        //Import of shields and epics
+
+        importedBase = importExportClass.importConfig(baseDamageInput, infoLabel);
+        /** Import of shields and epics */
         importExportClass.importItems(allShieldsAndEpics, suggestions);
-        //Binding suggestions and input for autocomplete
+        /** Binding suggestions and input for autocomplete */
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
 
-        //Initialise listeners for all TextFields Inputs
-        baseDamageInput.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-               try {
-                   if (newValue.isBlank()){ synchro.setBaseDamage(368);}
-                   else{synchro.setBaseDamage(Float.parseFloat(newValue));}
-               }catch (NumberFormatException numberFormatException){
-                   infoLabel.setText("La base de dommage de la Synchro doit être un nombre.");
+        /** Initialise listeners for all TextFields Inputs */
+        baseDamageInput.textProperty().addListener((observable, oldValue, newValue) -> {
+           try {
+               if (newValue.isBlank()){
+                   synchro.setBaseDamage(368);
+               }else{
+                   synchro.setBaseDamage(Float.parseFloat(newValue));
                }
-            }
+
+
+           }catch (NumberFormatException numberFormatException){
+               infoLabel.setText("La base de dommage de la Synchro doit être un nombre.");
+           }
         });
 
-        boost.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    infoLabel.setText("");
-                    if (newValue.isBlank()){ synchro.setBoost(0);}else{
-                        synchro.setBoost(Float.parseFloat(newValue));}
-                } catch (InvalidBoostException e) {
-                    infoLabel.setText(e.getMessage());
-                } catch (NumberFormatException numberFormatException){infoLabel.setText("Le boost synchro doit être un NOMBRE multiple de 200 (0,200,400,etc...)");}
-            }
+        boost.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                infoLabel.setText("");
+                if (newValue.isBlank()){ synchro.setBoost(0);}else{
+                    synchro.setBoost(Float.parseFloat(newValue));}
+            } catch (InvalidBoostException e) {
+                infoLabel.setText(e.getMessage());
+            } catch (NumberFormatException numberFormatException){infoLabel.setText("Le boost synchro doit être un NOMBRE multiple de 200 (0,200,400,etc...)");}
         });
 
-        resFixes.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (newValue.isBlank()){
-                        enemy.setAirRes(0);
-                    }else{
-                        enemy.setAirRes(Float.parseFloat(newValue));}
-                }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances fixes air doivent être un nombre.");}
-            }
+        resFixes.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                if (newValue.isBlank()){
+                    enemy.setAirRes(0);
+                }else{
+                    enemy.setAirRes(Float.parseFloat(newValue));}
+            }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances fixes air doivent être un nombre.");}
         });
 
-        resPercentage.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (newValue.isBlank()){
-                        enemy.setPercentageAirRes(0);
-                    }else{
-                        enemy.setPercentageAirRes(Float.parseFloat(newValue));}
-                }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances % doivent être sous la forme d'un nombre, sans le signe %");}
-            }
+        resPercentage.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                if (newValue.isBlank()){
+                    enemy.setPercentageAirRes(0);
+                }else{
+                    enemy.setPercentageAirRes(Float.parseFloat(newValue));}
+            }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances % doivent être sous la forme d'un nombre, sans le signe %");}
         });
+
+        /** Connects the registered multipliers to the ListView*/
+        damageMultiplierOutput.setItems(registeredMultiplier);
+
+        /** Formats the ListView cells with a checkbox based on the BooleanProperty in the class enemy through the getter activatedProperty()*/
+        damageMultiplierOutput.setCellFactory(CheckBoxListCell.forListView(Multiplier::activatedProperty));
+
     }
 
     /**Javafx elements**/
@@ -183,36 +189,34 @@ public class MainWindowController {
     private ToggleButton renvoiButton;
 
     /**Calculation methods**/
-    public int calculateRangedDamagesMin() {
+    private int calculateRangedDamagesMin(float totalMultiplier) {
         float rangedMultiplier = enemy.getTotalRangedMultiplierMin();
-        return calculateDamages(rangedMultiplier);
+        return calculateDamages(rangedMultiplier, totalMultiplier);
     }
 
-    public int calculateRangedDamagesMax() {
+    private int calculateRangedDamagesMax(float totalMultiplier) {
         float rangedMultiplier = enemy.getTotalRangedMultiplierMax();
-        return calculateDamages(rangedMultiplier);
+        return calculateDamages(rangedMultiplier, totalMultiplier);
     }
 
-    public int calculateMeleeDamagesMin(){
+    private int calculateMeleeDamagesMin(float totalMultiplier){
         float meleeMultiplier = enemy.getTotalMeleeMultiplierMin();
-        return calculateDamages(meleeMultiplier);
+        return calculateDamages(meleeMultiplier, totalMultiplier);
     }
 
-    public int calculateMeleeDamagesMax(){
+    private int calculateMeleeDamagesMax(float totalMultiplier){
         float meleeMultiplier = enemy.getTotalMeleeMultiplierMax();
-        return calculateDamages(meleeMultiplier);
+        return calculateDamages(meleeMultiplier, totalMultiplier);
     }
 
-    public int calculateDamages(float meleeOrRangeMultiplier){
+    private int calculateDamages(float meleeOrRangeMultiplier, float totalMultiplier){
         float boost = synchro.getBoost();
-        //updateBaseDamage(baseDamageInput.getText());
         float baseDamage = synchro.getBaseDamage(); 
         float airRes = enemy.getAirRes();
         float percentageAirRes = enemy.getPercentageAirRes();
-        float multiplier = enemy.getDamageMultiplier();
         double domMinusRes = (baseDamage-airRes)*(1-(percentageAirRes/100));
         double floorDomMinusRes = Math.floor(domMinusRes);
-        double floorMultiplier = Math.floor(floorDomMinusRes * multiplier);
+        double floorMultiplier = Math.floor(floorDomMinusRes * totalMultiplier);
         double floorTotal = floorMultiplier * ((boost/100)-1) * meleeOrRangeMultiplier;
         double doubleRoundedTotalDamage = Math.floor(floorTotal);
         int roundedTotalDamage = (int) doubleRoundedTotalDamage;
@@ -221,6 +225,16 @@ public class MainWindowController {
         }else{
             return roundedTotalDamage;
         }
+    }
+
+    private float calculateTotalMultiplier(){
+        float totalMultiplier = 1;
+        for (Multiplier multiplier : registeredMultiplier){
+            if (multiplier.activatedProperty().get()){
+                totalMultiplier = totalMultiplier * (multiplier.getValue()/100);
+            }
+        }
+        return totalMultiplier;
     }
 
     /**Settings and options**/
@@ -307,9 +321,9 @@ public class MainWindowController {
         String name = damageMultiplierNameInput.getText();
         String valueStr = damageMultiplierValueInput.getText();
         try {
-            float newMultiplier = Float.valueOf(valueStr)/100;
-            enemy.addMultiplier(newMultiplier);
-            updateMultiplierOutput(name, valueStr);
+            float newMultiplier = Float.valueOf(valueStr);
+            //enemy.addMultiplier(newMultiplier);
+            updateMultiplierOutput(name, newMultiplier);
             damageMultiplierNameInput.setText("");
             damageMultiplierValueInput.setText("");
         }catch (NumberFormatException numberFormatException){
@@ -317,24 +331,20 @@ public class MainWindowController {
         }
     }
 
-    private void updateMultiplierOutput(String name, String value){
-
-        String newMultiplier = name + " <> " + value +"%";
-        registeredMultiplier.add(newMultiplier);
-        damageMultiplierOutput.setItems(registeredMultiplier);
+    private void updateMultiplierOutput(String name, float value){
+        Multiplier multiplier = new Multiplier(name,value);
+        registeredMultiplier.add(multiplier);
     }
 
     public void removeDamageMultiplier(ActionEvent actionEvent) {
-        String multiplierToRemove = (String) damageMultiplierOutput.getSelectionModel().getSelectedItem();
-        float reversedMultiplier = retrieveMultiplier(multiplierToRemove);
-        enemy.addMultiplier(reversedMultiplier);
-        registeredMultiplier.remove(multiplierToRemove);
-    }
-
-    private float retrieveMultiplier(String multiplierExpression){
-        String multiplier = multiplierExpression.replaceAll("[^0-9]", "");
-        float floatMultiplier = 1/(Float.parseFloat(multiplier)/100);
-        return floatMultiplier;
+        Multiplier selectedMultiplier = (Multiplier) damageMultiplierOutput.getSelectionModel().getSelectedItem();
+        for (Multiplier multiplier: registeredMultiplier){
+            if (selectedMultiplier.equals(multiplier)) {
+                enemy.removeMultiplier(selectedMultiplier.getValue());
+                registeredMultiplier.remove(selectedMultiplier);
+                return;
+            }
+        }
     }
 
     public void updateBoost(ActionEvent actionEvent) {
@@ -410,10 +420,11 @@ public class MainWindowController {
     /** Display damage methods **/
     public void displayDamage(ActionEvent actionEvent) {
         infoLabel.setText("");
-            int rangedDamagesMin = calculateRangedDamagesMin();
-            int rangedDamagesMax = calculateRangedDamagesMax();
-            int meleeDamagesMin = calculateMeleeDamagesMin();
-            int meleeDamagesMax = calculateMeleeDamagesMax();
+            float totalMultiplier = calculateTotalMultiplier();
+            int rangedDamagesMin = calculateRangedDamagesMin(totalMultiplier);
+            int rangedDamagesMax = calculateRangedDamagesMax(totalMultiplier);
+            int meleeDamagesMin = calculateMeleeDamagesMin(totalMultiplier);
+            int meleeDamagesMax = calculateMeleeDamagesMax(totalMultiplier);
             displayRangedDamages(rangedDamagesMin, rangedDamagesMax);
             displayMeleeDamages(meleeDamagesMin, meleeDamagesMax);
     }

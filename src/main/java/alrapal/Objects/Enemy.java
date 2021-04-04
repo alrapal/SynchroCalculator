@@ -42,7 +42,11 @@ public class Enemy {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public void addMultiplier(float newMultiplier){
-        this.damageMultiplier = this.damageMultiplier *newMultiplier;
+        this.damageMultiplier = this.damageMultiplier * (newMultiplier/100);
+    }
+
+    public void removeMultiplier(float multiplier){
+        this.damageMultiplier = this.damageMultiplier / (multiplier/100);
     }
 
     public float getTotalRangedMultiplierMin(){

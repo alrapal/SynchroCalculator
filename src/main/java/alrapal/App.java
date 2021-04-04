@@ -29,9 +29,11 @@ public class App extends Application {
         mainWindow.setResizable(false);
 
         mainWindow.setOnCloseRequest(event -> {
-            ImportExportClass export = controller.getImportExportClass();
-            float baseDamage = controller.getSynchro().getBaseDamage();
-            export.exportConfig(baseDamage);
+            if (controller.getImportedBase() != controller.getSynchro().getBaseDamage()) {
+                ImportExportClass export = controller.getImportExportClass();
+                float baseDamage = controller.getSynchro().getBaseDamage();
+                export.exportConfig(baseDamage);
+            }
             Platform.exit();
         });
     }
