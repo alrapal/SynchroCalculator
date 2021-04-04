@@ -7,6 +7,7 @@ import alrapal.Objects.Multiplier;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,8 +15,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import java.util.ArrayList;
@@ -109,6 +112,8 @@ public class MainWindowController {
         });
 
         damageMultiplierOutput.setItems(registeredMultiplier);
+
+        damageMultiplierOutput.setCellFactory(CheckBoxListCell.forListView(Multiplier::activatedProperty));
 
 
     }
