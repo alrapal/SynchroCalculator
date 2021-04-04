@@ -52,14 +52,14 @@ public class ImportExportClass {
         }
     }
 
-    public void importConfig(TextField baseDamageInput, Label infoLabel){
+    public float importConfig(TextField baseDamageInput, Label infoLabel){
+        float importedBase_ = 0;
         File baseFile = new File(filePathBaseSynchro);
         try(Scanner scanner = new Scanner(baseFile)) {
             String importedBase = scanner.nextLine();
-            float importedBase_ = Float.parseFloat(importedBase);
+            importedBase_ = Float.parseFloat(importedBase);
             if (importedBase_ == 368){
                 infoLabel.setText("INFO: Utilisation de la base de dommage correspondant au niveau 200");
-                return;
             }else {
                 baseDamageInput.setText(importedBase);
                 //synchro.setBaseDamage(newBase);
@@ -68,6 +68,8 @@ public class ImportExportClass {
         } catch (FileNotFoundException e) {
             infoLabel.setText("INFO: Utilisation de la base de dommage correspondant au niveau 200");
         }
+        if (importedBase_ == 0){
+        return 368;}else{ return importedBase_;}
     }
 
 }
