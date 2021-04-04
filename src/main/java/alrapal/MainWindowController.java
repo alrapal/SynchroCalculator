@@ -3,6 +3,7 @@ package alrapal;
 import alrapal.Exceptions.InvalidBoostException;
 import alrapal.ImportExport.ImportExportClass;
 import alrapal.Objects.Enemy;
+import alrapal.Objects.Multiplier;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
 import javafx.beans.value.ChangeListener;
@@ -33,7 +34,9 @@ public class MainWindowController {
     private final static  Map <String , ShieldAndEpic>  allShieldsAndEpics = new HashMap<>();
     private final static ArrayList <String> suggestions = new ArrayList<>();
     private final ObservableList <String> registeredShieldsAndEpics = FXCollections.observableArrayList();
-    private final ObservableList <String> registeredMultiplier = FXCollections.observableArrayList();
+    private final ObservableList <Multiplier> registeredMultiplier = FXCollections.observableArrayList();
+
+
 
    /**Getters**/
     public Synchro getSynchro() {return this.synchro;}
@@ -48,14 +51,14 @@ public class MainWindowController {
 
     /**Initializers**/
     public void initialize(){
-        //TODO : Import synchro base from a file (and delete the file ?)
+
         importExportClass.importConfig(baseDamageInput, infoLabel);
-        //Import of shields and epics
+        /** Import of shields and epics */
         importExportClass.importItems(allShieldsAndEpics, suggestions);
-        //Binding suggestions and input for autocomplete
+        /** Binding suggestions and input for autocomplete */
         TextFields.bindAutoCompletion(shieldAndEpicInput,suggestions);
 
-        //Initialise listeners for all TextFields Inputs
+        /** Initialise listeners for all TextFields Inputs */
         baseDamageInput.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -104,6 +107,10 @@ public class MainWindowController {
                 }catch (NumberFormatException numberFormatException){infoLabel.setText("Les résistances % doivent être sous la forme d'un nombre, sans le signe %");}
             }
         });
+
+        damageMultiplierOutput.setItems(registeredMultiplier);
+
+
     }
 
     /**Javafx elements**/
@@ -205,7 +212,6 @@ public class MainWindowController {
 
     public int calculateDamages(float meleeOrRangeMultiplier){
         float boost = synchro.getBoost();
-        //updateBaseDamage(baseDamageInput.getText());
         float baseDamage = synchro.getBaseDamage(); 
         float airRes = enemy.getAirRes();
         float percentageAirRes = enemy.getPercentageAirRes();
@@ -307,9 +313,9 @@ public class MainWindowController {
         String name = damageMultiplierNameInput.getText();
         String valueStr = damageMultiplierValueInput.getText();
         try {
-            float newMultiplier = Float.valueOf(valueStr)/100;
+            float newMultiplier = Float.valueOf(valueStr);
             enemy.addMultiplier(newMultiplier);
-            updateMultiplierOutput(name, valueStr);
+            updateMultiplierOutput(name, newMultiplier);
             damageMultiplierNameInput.setText("");
             damageMultiplierValueInput.setText("");
         }catch (NumberFormatException numberFormatException){
@@ -317,24 +323,20 @@ public class MainWindowController {
         }
     }
 
-    private void updateMultiplierOutput(String name, String value){
-
-        String newMultiplier = name + " <> " + value +"%";
-        registeredMultiplier.add(newMultiplier);
-        damageMultiplierOutput.setItems(registeredMultiplier);
+    private void updateMultiplierOutput(String name, float value){
+        Multiplier multiplier = new Multiplier(name,value);
+        registeredMultiplier.add(multiplier);
     }
 
     public void removeDamageMultiplier(ActionEvent actionEvent) {
-        String multiplierToRemove = (String) damageMultiplierOutput.getSelectionModel().getSelectedItem();
-        float reversedMultiplier = retrieveMultiplier(multiplierToRemove);
-        enemy.addMultiplier(reversedMultiplier);
-        registeredMultiplier.remove(multiplierToRemove);
-    }
-
-    private float retrieveMultiplier(String multiplierExpression){
-        String multiplier = multiplierExpression.replaceAll("[^0-9]", "");
-        float floatMultiplier = 1/(Float.parseFloat(multiplier)/100);
-        return floatMultiplier;
+        Multiplier selectedMultiplier = (Multiplier) damageMultiplierOutput.getSelectionModel().getSelectedItem();
+        for (Multiplier multiplier: registeredMultiplier){
+            if (selectedMultiplier.equals(multiplier)) {
+                enemy.removeMultiplier(selectedMultiplier.getValue());
+                registeredMultiplier.remove(selectedMultiplier);
+                return;
+            }
+        }
     }
 
     public void updateBoost(ActionEvent actionEvent) {
