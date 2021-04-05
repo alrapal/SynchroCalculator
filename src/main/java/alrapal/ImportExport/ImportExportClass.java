@@ -68,8 +68,8 @@ public class ImportExportClass {
         } catch (FileNotFoundException e) {
             infoLabel.setText("INFO: Utilisation de la base de dommage correspondant au niveau 200");
         }
-        if (importedBase_ == 0){
-        return 368;}else{ return importedBase_;}
+        if (importedBase_ != 0){
+        return importedBase_;}else{ return 368;}
     }
 
 }

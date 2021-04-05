@@ -6,8 +6,6 @@ import alrapal.Objects.Enemy;
 import alrapal.Objects.Multiplier;
 import alrapal.Objects.ShieldAndEpic;
 import alrapal.Objects.Synchro;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,6 +54,7 @@ public class MainWindowController {
     public void initialize(){
 
         importedBase = importExportClass.importConfig(baseDamageInput, infoLabel);
+        synchro.setBaseDamage(importedBase);
         /** Import of shields and epics */
         importExportClass.importItems(allShieldsAndEpics, suggestions);
         /** Binding suggestions and input for autocomplete */
