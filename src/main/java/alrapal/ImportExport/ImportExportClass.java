@@ -19,15 +19,18 @@ public class ImportExportClass {
     private final static String fileSeparator = System.getProperty("file.separator");
     private final String filePathBaseSynchro = workingDir + fileSeparator + "SynchroCalculator_Base.txt";
 
-    public void importItems(Map<String, ShieldAndEpic> allShieldsAndEpics, ArrayList suggestions){
+    public void importItems(Map<String, ShieldAndEpic> allShieldsAndEpics, ArrayList<String> suggestions){
 
-        try(InputStream fileReader = this.getClass().getClassLoader().getResourceAsStream("database.json"); InputStreamReader reader = new InputStreamReader(fileReader)){
-            JsonArray itemToImport = (JsonArray) JsonParser.parseReader(reader);
-            for (int i = 0; i < itemToImport.size(); i++){
-                JsonObject currentImportedItem = (JsonObject) itemToImport.get(i);
-                ShieldAndEpic importedShieldOrEpic = parseToJava(currentImportedItem);
-                allShieldsAndEpics.put(importedShieldOrEpic.getName(), importedShieldOrEpic);
-                suggestions.add(importedShieldOrEpic.getName());
+        try(InputStream fileReader = this.getClass().getClassLoader().getResourceAsStream("database.json")) {
+            assert fileReader != null;
+            try(InputStreamReader reader = new InputStreamReader(fileReader)){
+                JsonArray itemToImport = (JsonArray) JsonParser.parseReader(reader);
+                for (int i = 0; i < itemToImport.size(); i++){
+                    JsonObject currentImportedItem = (JsonObject) itemToImport.get(i);
+                    ShieldAndEpic importedShieldOrEpic = parseToJava(currentImportedItem);
+                    allShieldsAndEpics.put(importedShieldOrEpic.getName(), importedShieldOrEpic);
+                    suggestions.add(importedShieldOrEpic.getName());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

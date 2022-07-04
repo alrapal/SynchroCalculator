@@ -1,0 +1,11 @@
+#IntelIJ IDE folder
+.idea/
+
+# divers
+.DS_Store
+
+# Build folder
+target/
+dependency-reduced-pom.xml
+
+
