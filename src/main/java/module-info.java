@@ -1,4 +1,4 @@
-module alrapa {
+module alrapal {
 
     requires javafx.controls;
     requires javafx.fxml;
@@ -8,4 +8,5 @@ module alrapa {
     requires com.google.gson;
     opens alrapal;
     exports alrapal;
+
 }
