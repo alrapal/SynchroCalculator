@@ -25,4 +25,4 @@ jobs:
         cache: maven
     - name: Compile and Test
     # compiles and run the test pluggins defined in the POM
-      run: mvn compile test
+      run: mvn clean compile test
