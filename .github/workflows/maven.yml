@@ -9,7 +9,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -23,5 +23,6 @@ jobs:
         java-version: '15'
         distribution: 'corretto'
         cache: maven
-    - name: Build with Maven using jlink
-      run: mvn clean javafx:jlink
+    - name: Compile and Test
+    # compiles and run the test pluggins defined in the POM
+      run: mvn compile test
