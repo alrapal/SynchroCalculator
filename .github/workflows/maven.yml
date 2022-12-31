@@ -51,5 +51,7 @@ jobs:
     - name: Package app as dmg
       run: |
         sh CI-tools/package.sh "icons/icon.icns"
-        ls
-    
+    - name: Archive package
+      uses: actions/upload-artifact@v3
+      with:
+        path: ./*.dmg
