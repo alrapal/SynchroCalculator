@@ -30,7 +30,7 @@ jobs:
       run: mvn clean compile test
   
   package-mac:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     runs-on: macos-latest
     
     steps:
