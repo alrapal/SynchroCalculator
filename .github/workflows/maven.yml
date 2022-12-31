@@ -30,6 +30,7 @@ jobs:
       run: mvn clean compile test
   
   package-mac:
+    needs: build-and-test
     # if: github.event.pull_request.merged == true
     runs-on: macos-latest
     
@@ -42,7 +43,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'corretto'
-        cache: maven 
+        cache: maven
+    - name: Build jar
+      run: mvn clean install
+    - name: Build JRE image
+      run: mvn javafx:jlink
     - name: Package app as dmg
       run: |
         sh CI-tools/package.sh "icons/icon.icns"
