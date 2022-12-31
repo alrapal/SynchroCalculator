@@ -12,7 +12,7 @@ on:
      
 # Dummy version to prevent pom.xml to make the build crash
 env:
-  VERSION: "TEST"
+  VERSION: "0.0"
 
 jobs:
   build-and-test:
