@@ -45,6 +45,6 @@ jobs:
         cache: maven 
     - name: Package app as dmg
       run: |
-        sh package.sh "icons/icon.icns"
+        sh CI-tools/package.sh "icons/icon.icns"
         ls
     
