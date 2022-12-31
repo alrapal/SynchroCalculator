@@ -28,28 +28,3 @@ jobs:
     - name: Compile and Test
     # compiles and run the test pluggins defined in the POM
       run: mvn clean compile test
-  
-  package-mac:
-    needs: build-and-test
-    # if: github.event.pull_request.merged == true
-    runs-on: macos-latest
-    
-    steps:
-    # Checkout the repo to allow access for the workflow
-    - uses: actions/checkout@v3
-    # Set up JDK 17
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'corretto'
-        cache: maven
-    - name: Build jar
-      run: mvn clean install
-    - name: Build JRE image
-      run: mvn javafx:jlink
-    - name: Package app as dmg
-      run: |
-        sh CI-tools/package.sh "icons/icon.icns"
-        ls
-    

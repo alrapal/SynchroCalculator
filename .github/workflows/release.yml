@@ -1,0 +1,38 @@
+name: Package for Windows and MacOS
+
+on:
+  release:
+    - created
+
+jobs:
+  package-mac:
+    runs-on: macos-latest
+
+    env:
+      VERSION: $GITHUB_REF
+
+    steps:
+      # Checkout the repo to allow access for the workflow
+      - uses: actions/checkout@v3
+      # Set up JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+          cache: maven
+      # Build the jar that will be used by jpackage
+      - name: Build jar
+        run: mvn clean install
+      # Build the JRE used by jpackage
+      - name: Build JRE image
+        run: mvn javafx:jlink
+      # Package the app using the icon path given as a parameter
+      - name: Package app as dmg
+        run: sh CI-tools/package.sh "icons/icon.icns" $VERSION
+      - name: Archive package
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos_version
+          path: ./*.dmg
+          retention-days: 5
