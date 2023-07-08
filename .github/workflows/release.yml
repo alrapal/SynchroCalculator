@@ -2,7 +2,7 @@ name: Package for Windows and MacOS
 
 on:
   release:
-    types: ['published']
+    types: ['released']
 
 jobs:
   package-mac:
@@ -26,8 +26,8 @@ jobs:
       - name: Update Module Version
         # Use the versions-maven-plugin to set the module version using GitHub variables
         run: |
-          echo ${VERSION}
-          mvn versions:set -DnewVersion=${VERSION}
+          echo ${{ env.VERSION }}
+          mvn versions:set -DnewVersion=${{ env.VERSION }}
       - name: Build jar
         run: mvn clean install
       # Build the JRE used by jpackage
@@ -36,15 +36,13 @@ jobs:
       # Package the app using the icon path given as a parameter
       - name: Package app as dmg
         # Run script with arguments for the icon to use and the version number from GitHub environment variables
-        run: sh CI-tools/package.sh "icons/icon.icns" $VERSION
+        run: sh CI-tools/package.sh "icons/icon.icns" ${{ env.VERSION }}
         # Revert the module version for cleanness
       - name: Revert module version
         run: mvn versions:revert
         # Save the .dmg created as release asset
       - name: Release Package
-        uses: softprops/action-gh-release@v1
+        uses: djn24/add-asset-to-release@v1
         with:
-          files: |
-            *.dmg
-            LICENCE.md
-            README.md
+          token: ${{secrets.GITHUB_TOKEN}}
+          path: './Synchro Calculator-${{ env.VERSION }}.dmg'
