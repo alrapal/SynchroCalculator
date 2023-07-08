@@ -2,14 +2,15 @@ name: Package for Windows and MacOS
 
 on:
   release:
-    - created
+    types: ['published']
 
 jobs:
   package-mac:
     runs-on: macos-latest
 
     env:
-      VERSION: $GITHUB_REF
+      # We retrieve the release tag created with the env variable
+      VERSION: ${{ github.ref_name }}
 
     steps:
       # Checkout the repo to allow access for the workflow
@@ -21,7 +22,12 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: maven
-      # Build the jar that will be used by jpackage
+        # Build the jar that will be used by jpackage
+      - name: Update Module Version
+        # Use the versions-maven-plugin to set the module version using GitHub variables
+        run: |
+          echo ${VERSION}
+          mvn versions:set -DnewVersion=${VERSION}
       - name: Build jar
         run: mvn clean install
       # Build the JRE used by jpackage
@@ -29,10 +35,16 @@ jobs:
         run: mvn javafx:jlink
       # Package the app using the icon path given as a parameter
       - name: Package app as dmg
+        # Run script with arguments for the icon to use and the version number from GitHub environment variables
         run: sh CI-tools/package.sh "icons/icon.icns" $VERSION
-      - name: Archive package
-        uses: actions/upload-artifact@v3
+        # Revert the module version for cleanness
+      - name: Revert module version
+        run: mvn versions:revert
+        # Save the .dmg created as release asset
+      - name: Release Package
+        uses: softprops/action-gh-release@v1
         with:
-          name: macos_version
-          path: ./*.dmg
-          retention-days: 5
+          files: |
+            *.dmg
+            LICENCE.md
+            README.md

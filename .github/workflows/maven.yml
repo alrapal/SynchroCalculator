@@ -5,15 +5,9 @@ name: JavaFX CI with Maven
 
 on:
   push:
+    branches: ['*']
   pull_request:
     branches: [ "master" ]
-    types:
-     - closed
-     
-# Dummy version to prevent pom.xml to make the build crash
-env:
-  VERSION: "0.0"
-
 jobs:
   build-and-test:
 
@@ -30,5 +24,5 @@ jobs:
         distribution: 'corretto'
         cache: maven
     - name: Compile and Test
-    # compiles and run the test pluggins defined in the POM
+      # compiles and run the test plugins defined in the POM
       run: mvn clean compile test
